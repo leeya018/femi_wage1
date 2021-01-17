@@ -10,9 +10,8 @@ import { useHistory } from 'react-router-dom'
 
 import api from '../api'
 
-function validateEmail(email) {
-  const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/
-  return re.test(String(email).toLowerCase())
+function validateIdNumber(idNumber) {
+  return idNumber.length === 9
 }
 export default function Signup() {
   let dispatch = useDispatch()
@@ -20,28 +19,22 @@ export default function Signup() {
 
   const history = useHistory()
 
-  let usernameRef = useRef(null)
+  let id_numberRef = useRef(null)
   let passwordRef = useRef(null)
-  let emailRef = useRef(null)
   let confirmRef = useRef(null)
 
   const handleSignup = () => {
     let newUser = {
-      username: usernameRef.current.value,
+      id_number: id_numberRef.current.value,
       password: passwordRef.current.value,
-      email: emailRef.current.value,
       confirm: confirmRef.current.checked,
-    }
-    if (!validateEmail(newUser.email)) {
-      dispatch(updateErrMessage('צריך להכניס אימייל תקין'))
-      return
     }
     if (newUser.password.length < 4) {
       dispatch(updateErrMessage('סיסמה צריכה להיות לפחות 4 תווים '))
       return
     }
-    if (newUser.username.length < 4) {
-      dispatch(updateErrMessage('שם משתמש צריך להיות לפחות 4 תווים '))
+    if (newUser.id_number.length !== 9) {
+      dispatch(updateErrMessage('תעודת זהות חייבת להכיל 9 ספרות בלבד'))
       return
     }
     if (newUser.confirm === false) {
@@ -81,16 +74,11 @@ export default function Signup() {
       >
         סרטון הסבר
       </a>
+
       <FormControl
         type="text"
-        placeholder="אימייל"
-        ref={emailRef}
-        onFocus={resetErr}
-      />
-      <FormControl
-        type="text"
-        placeholder="שם משתמש"
-        ref={usernameRef}
+        placeholder="תעודת זהות"
+        ref={id_numberRef}
         onFocus={resetErr}
       />
       <FormControl

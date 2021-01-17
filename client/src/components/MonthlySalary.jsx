@@ -18,10 +18,10 @@ export default function MonthlySalary() {
   const getSalaryByMonth = (chosenMonth) => {
     month = chosenMonth
     let token = localStorage.getItem('token')
-    let username = localStorage.getItem('username')
+    let id_number = localStorage.getItem('id_number')
 
     api
-      .getSalaryByMonth(chosenMonth - 1, username, token)
+      .getSalaryByMonth(chosenMonth - 1, id_number, token)
       .then((res) => {
         dispatch(updateMonthlyIncome(res.data))
         dispatch(updateErrMessage(''))

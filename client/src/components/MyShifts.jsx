@@ -12,7 +12,7 @@ import {
   updateShowModal,
 } from '../features/femiSlice'
 import { selectMessages, updateErrMessage } from '../features/messagesSlice'
-//make all rest calls to work with username adn token!!!
+//make all rest calls to work with id_number adn token!!!
 
 let month = 1
 export default function MyShifts() {
@@ -21,12 +21,12 @@ export default function MyShifts() {
   let messagesSelection = useSelector(selectMessages)
 
   const getMyMonthlyShifts = (chosenMonth) => {
-    let username = localStorage.getItem('username')
+    let id_number = localStorage.getItem('id_number')
     let token = localStorage.getItem('token')
     month = chosenMonth
 
     api
-      .getMyMonthlyShifts(month - 1, username, token)
+      .getMyMonthlyShifts(month - 1, id_number, token)
       .then((res) => {
         dispatch(updateErrMessage(''))
         dispatch(updateAllMyShifts(res.data))

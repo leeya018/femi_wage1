@@ -79,7 +79,7 @@ const convertArrayToObjWithRates = (institutions) => {
 const createDayInfo = (
   totalTime,
   institutions,
-  username,
+  id_number,
   totalSumInstitutions,
   baseSalary
 ) => {
@@ -90,7 +90,7 @@ const createDayInfo = (
   // let testsRatesObj = convertArrayToObjWithRates(institutions)
 
   let dayInfo = {
-    username,
+    id_number,
     hours: {
       baseHours: {
         amount: baseHours,

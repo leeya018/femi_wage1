@@ -2,30 +2,24 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const UserModel = require("../models/user-model");
 
-async function findUsername(username) {
-  return await UserModel.findOne({ username });
+async function findid_number(id_number) {
+  return await UserModel.findOne({ id_number });
 }
-async function findEmail(email) {
-  return await UserModel.findOne({ email });
-}
+
  signup = async (req, res) => {
-  let { username, password, email,confirm } = req.body;
-  if (username == undefined || password == undefined || email == undefined || confirm== false) {
+  let { id_number, password, email,confirm } = req.body;
+  if (id_number == undefined || password == undefined || confirm== false) {
     return res.status(400).json({ message: "All fields need to be supplied" });
   }
   let salt = bcrypt.genSaltSync(10);
   let hash = bcrypt.hashSync(password, salt);
 
-  if (await findUsername(username)) {
+  if (await findid_number(id_number)) {
     return res.status(400).json({ message: "שם שמשתמש כבר קיים במאגר" });
-  }
-  if (await findEmail(email)) {
-    return res.status(400).json({ message: "האימייל כבר קיים במאגר" });
   }
 
   let newUser = new UserModel({
-    username,
-    email,
+    id_number,
     password: hash,
     confirm,
     creationDate: new Date(),
@@ -51,15 +45,15 @@ async function findEmail(email) {
     });
 };
 login = (req, res) => {
-  let { username, password } = req.body;
-  if (!username || !password) {
+  let { id_number, password } = req.body;
+  if (!id_number || !password) {
     return res.json({
       status: 400,
       message: "צריך למלא את כל השדות!!",
     });
   }
 
-  UserModel.findOne({ username: username }, (err, user) => {
+  UserModel.findOne({ id_number: id_number }, (err, user) => {
     if (err) {
       return res.status(400).json({ success: false, error: err });
     }
@@ -77,14 +71,14 @@ login = (req, res) => {
     let token = jwt.sign(
       {
         exp: Math.floor(Date.now() / 1000) + 60 * 60 * 100, // 100 hour expiration
-        username: user.username,
+        id_number: user.id_number,
       },
       process.env.PRIVATE_KEY
     );
     return res.status(200).json({
       message: "You are logged in",
       token: "Bearer " + token,
-      username,
+      id_number,
     });
   });
 };

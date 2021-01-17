@@ -56,7 +56,7 @@ const femiSlice = createSlice({
       let wageFor125 = util.calcWagePer125Hours(hoursPer125)
 
       let dayInfo = {
-        username: localStorage.getItem('username'),
+        id_number: localStorage.getItem('id_number'),
         hours: {
           baseHours: {
             amount: baseHours,

@@ -16,7 +16,7 @@ export default function Login({ updateLogged }) {
   let userSelection = useSelector(selectUser)
   let messagesSelection = useSelector(selectMessages)
 
-  let usernameRef = useRef(null)
+  let id_numberRef = useRef(null)
   let passwordRef = useRef(null)
 
   useEffect(() => {
@@ -24,7 +24,7 @@ export default function Login({ updateLogged }) {
   }, [])
   const handleLogin = () => {
     let userInfo = {
-      username: usernameRef.current.value,
+      id_number: id_numberRef.current.value,
       password: passwordRef.current.value,
     }
     api
@@ -35,7 +35,7 @@ export default function Login({ updateLogged }) {
         history.push('/addshift')
 
         localStorage.setItem('token', res.data.token)
-        localStorage.setItem('username', res.data.username)
+        localStorage.setItem('id_number', res.data.id_number)
 
         dispatch(updateErrMessage(''))
       })
@@ -45,8 +45,8 @@ export default function Login({ updateLogged }) {
       })
   }
 
-  const resetUsername = () => {
-    usernameRef.current.value = ''
+  const resetid_number = () => {
+    id_numberRef.current.value = ''
     dispatch(updateErrMessage(''))
   }
   const resetPassword = () => {
@@ -63,9 +63,9 @@ export default function Login({ updateLogged }) {
       >סרטון הסבר</a>
       <FormControl
         type="text"
-        placeholder="שם משתמש"
-        onFocus={resetUsername}
-        ref={usernameRef}
+        placeholder="תעודת זהות"
+        onFocus={resetid_number}
+        ref={id_numberRef}
       />
       <FormControl
         type="text"

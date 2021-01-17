@@ -7,12 +7,12 @@ import api from '../api'
 
 //need to change all the object of the shift in the db to be match to db !!!!!
 export default function Shift({ updateSal, _id, total, creationDate }) {
-  let username = localStorage.getItem('username')
+  let id_number = localStorage.getItem('id_number')
   let token = localStorage.getItem('token')
   let dispatch = useDispatch()
   const getSalaryByID = () => {
     api
-      .getSalaryByID(_id, username, token)
+      .getSalaryByID(_id, id_number, token)
       .then((res) => {
         // dispatch(updateErrMessage(''))
         console.log(res.data)

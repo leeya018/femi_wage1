@@ -19,9 +19,9 @@ const isTodaySalaryInDb = async () => {
   }
 };
 
-const createInitialSumUpObj = (username) => {
+const createInitialSumUpObj = (id_number) => {
   return {
-    username,
+    id_number,
     hours: {
       baseHours: {
         amount: 0,
@@ -52,8 +52,8 @@ const fromDotToLine = (rate) => {
   return String(rate).replace(".", "_");
 };
 
-const sumUpMonth = (salaries, username) => {
-  let sumup = createInitialSumUpObj(username);
+const sumUpMonth = (salaries, id_number) => {
+  let sumup = createInitialSumUpObj(id_number);
   salaries.map((salary, index) => {
     sumup.hours.baseHours.amount += salary.hours.baseHours.amount;
     sumup.hours.baseHours.baseWage += salary.hours.baseHours.baseWage;

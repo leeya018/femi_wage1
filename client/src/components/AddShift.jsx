@@ -63,17 +63,17 @@ export default function AddShift() {
   console.log(femi.totalTime)
   const addDayInfo = () => {
     let { totalTime, institutions } = femi
-    let username = localStorage.getItem('username')
+    let id_number = localStorage.getItem('id_number')
     let dayInfo = util.createDayInfo(
       totalTime,
       institutions,
-      username,
+      id_number,
       femi.totalSumInstitutions,
       femi.baseSalary
     )
 
     api
-      .saveDay(dayInfo, username, token)
+      .saveDay(dayInfo, id_number, token)
       .then((res) => {
         console.log('res.data', res.data)
         dispatch(updateSuccessMessage(res.data.message))

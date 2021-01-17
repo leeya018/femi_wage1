@@ -8,26 +8,26 @@ const api = axios.create({
   baseURL: '/api',
 })
 
-const createHeaders = (username, token) => {
+const createHeaders = (id_number, token) => {
   return {
     headers: {
       Authorization: token,
-      username,
+      id_number,
     },
   }
 }
 
 export const signup = (payload) => api.post(`/auth/signup`, payload)
 export const login = (payload) => api.post(`/auth/login`, payload)
-export const saveDay = (payload, username, token) =>
-  api.post(`/addsalary`, payload, createHeaders(username, token))
-export const getSalaryByMonth = (month, username, token) =>
-  api.get(`/salarySumUp/?month=${month}`, createHeaders(username, token))
-export const getSalaryByID = (id, username, token) =>
-  api.get(`/salary/${id}`, createHeaders(username, token))
+export const saveDay = (payload, id_number, token) =>
+  api.post(`/addsalary`, payload, createHeaders(id_number, token))
+export const getSalaryByMonth = (month, id_number, token) =>
+  api.get(`/salarySumUp/?month=${month}`, createHeaders(id_number, token))
+export const getSalaryByID = (id, id_number, token) =>
+  api.get(`/salary/${id}`, createHeaders(id_number, token))
 
-export const getMyMonthlyShifts = (month, username, token) =>
-  api.get(`/salarys/?month=${month}`, createHeaders(username, token))
+export const getMyMonthlyShifts = (month, id_number, token) =>
+  api.get(`/salarys/?month=${month}`, createHeaders(id_number, token))
 
 const apis = {
   signup,

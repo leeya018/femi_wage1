@@ -56,7 +56,7 @@ getSalaryByID = (req, res) => {
 };
 
 getSalaries = (req, res) => {
-  let username = req.headers.username;
+  let id_number = req.headers.id_number;
 
   let { month, year } = req.query;
   if (!year) {
@@ -64,7 +64,7 @@ getSalaries = (req, res) => {
   }
 
   SalaryModel.find({
-    username,
+    id_number,
     creationDate: {
       $gte: new Date(year, month, 1),
       $lt: new Date(year, month + 1, 1),
@@ -86,14 +86,14 @@ getSalaries = (req, res) => {
 };
 
 getSumupOfMonth = (req, res) => {
-  let username = req.headers.username;
+  let id_number = req.headers.id_number;
 
   let { month, year } = req.query;
   if (!year) {
     year = new Date().getFullYear();
   }
   SalaryModel.find({
-    username,
+    id_number,
     creationDate: {
       $gte: new Date(year, month, 1),
       $lt: new Date(year, month + 1, 1),
@@ -107,7 +107,7 @@ getSumupOfMonth = (req, res) => {
         .status(404)
         .json({ success: false, message: "אין ימי עבודה על החודש הזה" });
     }
-    let sumUpSalaryPorMonth = util.sumUpMonth(salaries, username);
+    let sumUpSalaryPorMonth = util.sumUpMonth(salaries, id_number);
     return res.status(200).json(sumUpSalaryPorMonth);
   });
 };
