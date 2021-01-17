@@ -8,6 +8,7 @@ import {
 } from '../features/messagesSlice'
 import { Button, FormControl } from 'react-bootstrap'
 import { useHistory } from 'react-router-dom'
+import '../styles/signup.css'
 import api from '../api'
 
 export default function Login({ updateLogged }) {
@@ -55,18 +56,24 @@ export default function Login({ updateLogged }) {
   }
 
   return (
-    <div>
+    <div className="login">
       <h1>כניסה</h1>
-          <a
+      <a
         href="https://www.youtube.com/watch?v=Ox2hw7RayGM&t=2s&ab_channel=LeeYahav"
         target="_blank"
-      >סרטון הסבר</a>
+      >
+        סרטון הסבר
+      </a>
+      <p>:תעודת זהות </p>
+
       <FormControl
         type="text"
         placeholder="תעודת זהות"
         onFocus={resetid_number}
         ref={id_numberRef}
       />
+      <p>:סיסמה </p>
+
       <FormControl
         type="text"
         placeholder="סיסמה"

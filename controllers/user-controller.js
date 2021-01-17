@@ -7,7 +7,7 @@ async function findid_number(id_number) {
 }
 
  signup = async (req, res) => {
-  let { id_number, password, email,confirm } = req.body;
+  let { id_number, password, firstName,lastName,confirm } = req.body;
   if (id_number == undefined || password == undefined || confirm== false) {
     return res.status(400).json({ message: "All fields need to be supplied" });
   }
@@ -20,6 +20,8 @@ async function findid_number(id_number) {
 
   let newUser = new UserModel({
     id_number,
+    firstName,
+    lastName,
     password: hash,
     confirm,
     creationDate: new Date(),

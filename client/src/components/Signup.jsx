@@ -7,12 +7,9 @@ import {
 } from '../features/messagesSlice'
 import { Button, FormControl } from 'react-bootstrap'
 import { useHistory } from 'react-router-dom'
-
+import '../styles/signup.css'
 import api from '../api'
 
-function validateIdNumber(idNumber) {
-  return idNumber.length === 9
-}
 export default function Signup() {
   let dispatch = useDispatch()
   let messagesSelection = useSelector(selectMessages)
@@ -22,11 +19,15 @@ export default function Signup() {
   let id_numberRef = useRef(null)
   let passwordRef = useRef(null)
   let confirmRef = useRef(null)
+  let firstNameRef = useRef(null)
+  let lastNameRef = useRef(null)
 
   const handleSignup = () => {
     let newUser = {
       id_number: id_numberRef.current.value,
       password: passwordRef.current.value,
+      firstName: firstNameRef.current.value,
+      lastName: lastNameRef.current.value,
       confirm: confirmRef.current.checked,
     }
     if (newUser.password.length < 4) {
@@ -35,6 +36,14 @@ export default function Signup() {
     }
     if (newUser.id_number.length !== 9) {
       dispatch(updateErrMessage('תעודת זהות חייבת להכיל 9 ספרות בלבד'))
+      return
+    }
+    if (newUser.firstName === '') {
+      dispatch(updateErrMessage('יש להכניס שם פרטי'))
+      return
+    }
+    if (newUser.lastName === '') {
+      dispatch(updateErrMessage('יש להכניס שם משפחה'))
       return
     }
     if (newUser.confirm === false) {
@@ -66,7 +75,7 @@ export default function Signup() {
     dispatch(updateErrMessage(''))
   }
   return (
-    <div>
+    <div className="signup">
       <h1>הרשמה</h1>
       <a
         href="https://www.youtube.com/watch?v=Ox2hw7RayGM&t=2s&ab_channel=LeeYahav"
@@ -74,13 +83,31 @@ export default function Signup() {
       >
         סרטון הסבר
       </a>
-
+      <p>:תעודת זהות </p>
       <FormControl
         type="text"
         placeholder="תעודת זהות"
         ref={id_numberRef}
         onFocus={resetErr}
       />
+      <p>:שם פרטי </p>
+
+      <FormControl
+        type="text"
+        placeholder="שם פרטי"
+        ref={firstNameRef}
+        onFocus={resetErr}
+      />
+      <p>:שם משפחה </p>
+
+      <FormControl
+        type="text"
+        placeholder="שם משפחה"
+        ref={lastNameRef}
+        onFocus={resetErr}
+      />
+      <p>:סיסמה </p>
+
       <FormControl
         type="text"
         placeholder="סיסמה"
