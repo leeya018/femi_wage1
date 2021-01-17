@@ -28,6 +28,10 @@ export default function Login({ updateLogged }) {
       id_number: id_numberRef.current.value,
       password: passwordRef.current.value,
     }
+    if (userInfo.id_number.length !== 9) {
+      dispatch(updateErrMessage('תעודת זהות חייבת להכיל 9 ספרות בלבד'))
+      return
+    }
     api
       .login(userInfo)
       .then((res) => {
@@ -46,12 +50,8 @@ export default function Login({ updateLogged }) {
       })
   }
 
-  const resetid_number = () => {
-    id_numberRef.current.value = ''
-    dispatch(updateErrMessage(''))
-  }
-  const resetPassword = () => {
-    passwordRef.current.value = ''
+ 
+  const resetErr = () => {
     dispatch(updateErrMessage(''))
   }
 
@@ -69,7 +69,7 @@ export default function Login({ updateLogged }) {
       <FormControl
         type="text"
         placeholder="תעודת זהות"
-        onFocus={resetid_number}
+        onFocus={resetErr}
         ref={id_numberRef}
       />
       <p>:סיסמה </p>
@@ -77,7 +77,7 @@ export default function Login({ updateLogged }) {
       <FormControl
         type="text"
         placeholder="סיסמה"
-        onFocus={resetPassword}
+        onFocus={resetErr}
         ref={passwordRef}
       />
 
