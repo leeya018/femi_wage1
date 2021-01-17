@@ -1,0 +1,11 @@
+.remove-institution{
+    position: absolute;
+    right: 0;
+    top: 0;
+}
+
+.edit-institution{
+    position: absolute;
+    left: 0;
+    width: 3em;
+}

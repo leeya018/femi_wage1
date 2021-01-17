@@ -1,0 +1,101 @@
+import React, { useEffect } from 'react'
+import api from '../api'
+import { useDispatch, useSelector } from 'react-redux'
+import {Form } from 'react-bootstrap'
+import MyModal from "./MyModal"
+import Shift from "./Shift"
+
+import {
+  selectFemi,
+  updateAllMyShifts,
+  updateSalaryById,
+  updateShowModal,
+} from '../features/femiSlice'
+import { selectMessages, updateErrMessage } from '../features/messagesSlice'
+//make all rest calls to work with username adn token!!!
+
+let month = 1
+export default function MyShifts() {
+  let dispatch = useDispatch()
+  let femi = useSelector(selectFemi)
+  let messagesSelection = useSelector(selectMessages)
+
+  const getMyMonthlyShifts = (chosenMonth) => {
+    let username = localStorage.getItem('username')
+    let token = localStorage.getItem('token')
+    month = chosenMonth
+
+    api
+      .getMyMonthlyShifts(month - 1, username, token)
+      .then((res) => {
+        dispatch(updateErrMessage(''))
+        dispatch(updateAllMyShifts(res.data))
+      })
+      .catch((err) => {
+        console.log('err', err)
+        if (err.response) {
+          dispatch(updateErrMessage(err.response.data.message))
+        } else {
+          dispatch(updateErrMessage(err.message))
+        }
+      })
+  }
+
+  useEffect(() => {
+    getMyMonthlyShifts(1)
+  }, [])
+
+  const updateSal = (sal) => {
+    dispatch(updateSalaryById(sal))
+  }
+  return (
+    <div>
+      {femi.showModal && ( // tell react to not render it
+        <MyModal
+          show={femi.showModal} // just make it visible
+          handleOnHide={() => dispatch(updateShowModal(false))}
+        />
+      )}
+      <div>
+        <Form>
+          <Form.Group controlId="exampleForm.SelectCustomSizeSm">
+            <Form.Control
+              custom
+              onChange={(e) => getMyMonthlyShifts(e.target.value)}
+              as="select"
+              size="lg"
+            >
+              <option value={1}>ינואר-1</option>
+              <option value={2}>פברואר-2</option>
+              <option value={3}>מרץ-3</option>
+              <option value={4}>אפריל-4</option>
+              <option value={5}>מאי-5</option>
+              <option value={6}>יוני-6</option>
+              <option value={7}>יולי-7</option>
+              <option value={8}>אוגוסט-8</option>
+              <option value={9}>ספטמבר-9</option>
+              <option value={10}>אוקטובר-10</option>
+              <option value={11}>נובמבר-11</option>
+              <option value={12}>דצמבר-12</option>
+            </Form.Control>
+          </Form.Group>
+        </Form>
+        {/* <button onClick={getMyMonthlyShifts}>get salary</button> */}
+      </div>
+      {messagesSelection.errMessage ? (
+        <div style={{ color: 'red' }}>{messagesSelection.errMessage}</div>
+      ) : (
+        <div>
+          {femi.allMyShifts.length > 0 && (
+            <ul>
+              <h2>{`${month}/${new Date().getFullYear()}`}</h2>
+              {femi.allMyShifts.map((shift, ind) => (
+                <Shift updateSal={updateSal} key={ind} {...shift} />
+              ))}
+            </ul>
+          )}
+        </div>
+      )}
+    </div>
+  )
+}
