@@ -11,14 +11,16 @@ import MyShifts from './MyShifts'
 import Signup from './Signup'
 import Login from './Login'
 import Nav from './MyNav'
-import { useHistory } from 'react-router-dom'
+import { useHistory,useLocation } from 'react-router-dom'
 
 export default function MyRouter({ updateLogged, isLogged }) {
   const history = useHistory()
+  const location = useLocation()
+
   let id_number = localStorage.getItem('id_number')
 
   useEffect(() => {
-    if (!id_number) {
+    if (!id_number && location.pathname !== '/signup') {
       history.push('/login')
     }
   }, [])
