@@ -50,7 +50,6 @@ export default function Login({ updateLogged }) {
       })
   }
 
- 
   const resetErr = () => {
     dispatch(updateErrMessage(''))
   }
@@ -58,12 +57,7 @@ export default function Login({ updateLogged }) {
   return (
     <div className="login">
       <h1>כניסה</h1>
-      <a
-        href="https://www.youtube.com/watch?v=Ox2hw7RayGM&t=2s&ab_channel=LeeYahav"
-        target="_blank"
-      >
-        סרטון הסבר
-      </a>
+ 
       <p>:תעודת זהות </p>
 
       <FormControl
@@ -80,8 +74,17 @@ export default function Login({ updateLogged }) {
         onFocus={resetErr}
         ref={passwordRef}
       />
-
+     <a className="explenation-video"
+        href="https://www.youtube.com/watch?v=Ox2hw7RayGM&t=2s&ab_channel=LeeYahav"
+        target="_blank"
+      >
+        סרטון הסבר
+      </a><br/>
       <Button onClick={handleLogin}>התחברות</Button>
+      <div className="registration-link">
+        <p> : במידה ואינך רשום </p>
+        <a href="/signup">הרשמה לאתר</a>
+      </div>
       <div style={{ color: 'red' }}>{messagesSelection.errMessage}</div>
       <div style={{ color: 'green' }}>{messagesSelection.successMessage}</div>
     </div>

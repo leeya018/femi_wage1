@@ -1,14 +1,27 @@
-.signup>p{
-    font-size: 0.8em;
-    margin: 0;
+.signup > p {
+  font-size: 0.8em;
+  margin: 0;
 }
 
-.login>p{
-    font-size: 0.8em;
-    margin: 0;  
+.login > p {
+  font-size: 0.8em;
+  margin: 0;
 }
 
-.takanon>p{
-    font-size: 0.4em;
-    margin: 0;  
+.registration-link {
+  font-size: 0.6em;
+}
+
+.registration-link > p {
+  margin-bottom: 0;
+  margin-top: 0.5em;
+}
+
+.takanon > p {
+  font-size: 0.4em;
+  margin: 0;
+}
+
+.explenation-video{
+    font-size: .6em;
 }
