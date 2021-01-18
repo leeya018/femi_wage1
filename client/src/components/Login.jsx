@@ -22,6 +22,9 @@ export default function Login({ updateLogged }) {
 
   useEffect(() => {
     dispatch(updateSuccessMessage(''))
+    if(localStorage.getItem("id_number")){
+      history.push('/addshift')
+    }
   }, [])
   const handleLogin = () => {
     let userInfo = {
@@ -57,7 +60,7 @@ export default function Login({ updateLogged }) {
   return (
     <div className="login">
       <h1>כניסה</h1>
- 
+
       <p>:תעודת זהות </p>
 
       <FormControl
@@ -74,12 +77,14 @@ export default function Login({ updateLogged }) {
         onFocus={resetErr}
         ref={passwordRef}
       />
-     <a className="explenation-video"
+      <a
+        className="explenation-video"
         href="https://www.youtube.com/watch?v=Ox2hw7RayGM&t=2s&ab_channel=LeeYahav"
         target="_blank"
       >
         סרטון הסבר
-      </a><br/>
+      </a>
+      <br />
       <Button onClick={handleLogin}>התחברות</Button>
       <div className="registration-link">
         <p> : במידה ואינך רשום </p>

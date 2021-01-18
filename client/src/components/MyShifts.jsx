@@ -1,9 +1,10 @@
 import React, { useEffect } from 'react'
 import api from '../api'
+
 import { useDispatch, useSelector } from 'react-redux'
-import {Form } from 'react-bootstrap'
-import MyModal from "./MyModal"
-import Shift from "./Shift"
+import { Form } from 'react-bootstrap'
+import MyModal from './MyModal'
+import Shift from './Shift'
 
 import {
   selectFemi,
@@ -42,6 +43,8 @@ export default function MyShifts() {
   }
 
   useEffect(() => {
+
+
     getMyMonthlyShifts(1)
   }, [])
 

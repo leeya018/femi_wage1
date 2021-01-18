@@ -111,25 +111,29 @@ export default function Signup() {
       />
       <div style={{ color: 'red' }}>{messagesSelection.errMessage}</div>
       <div style={{ color: 'green' }}>{messagesSelection.successMessage}</div>
-      <a className="explenation-video"
+      <a
+        className="explenation-video"
         href="https://www.youtube.com/watch?v=Ox2hw7RayGM&t=2s&ab_channel=LeeYahav"
         target="_blank"
       >
         סרטון הסבר
-      </a><br/>
+      </a>
+      <br />
       <input
         type="checkbox"
         ref={confirmRef}
         onChange={updateConfirm}
         style={{ marginRight: '.5em' }}
       />
-      
+
       <div className="takanon">
-        <p>אני מאשר בזו שהתוכנה הנל נועדה לסייע לי
-        ויכול להיות שיהיו באגים בתוכנה</p>
-        <p>ובשל כך אני מתחיב שלא לתבוע את היוצר
-        כיוון שהמטרה שלו היא לעזור לי 
-      והכוונות שלו טובות</p>
+        <p>
+          אני מאשר בזו שהתוכנה הנל נועדה לסייע לי ויכול להיות שיהיו באגים בתוכנה
+        </p>
+        <p>
+          ובשל כך אני מתחיב שלא לתבוע את היוצר כיוון שהמטרה שלו היא לעזור לי
+          והכוונות שלו טובות
+        </p>
       </div>
       <Button onClick={handleSignup}>הרשם</Button>
     </div>

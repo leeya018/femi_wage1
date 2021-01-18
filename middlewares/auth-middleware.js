@@ -6,6 +6,9 @@ function authenticate(req, res, next) {
   let id_number = req.headers.id_number;
 
   let token = auth.split(" ")[1];
+  if(!token){
+    res.json({message:"עלייך להתחבר מחדש למערכת"})
+  }
   jwt.verify(token, process.env.PRIVATE_KEY, (err, decoded) => {
     if (err) {
       return res.status(401).json({ message: err.message });
