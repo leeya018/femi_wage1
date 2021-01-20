@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css'
+import { Button } from 'react-bootstrap'
+
 import { useDispatch, useSelector } from 'react-redux'
 import {
   selectFemi,
@@ -10,6 +12,7 @@ import {
   updateShowModal,
 } from '../features/femiSlice'
 import MyShiftModal from './MyShiftModal'
+import MonthlySalary from './MonthlySalary'
 import AddShift from './AddShift'
 import { selectMessages, updateErrMessage } from '../features/messagesSlice'
 
@@ -25,8 +28,7 @@ export default function MyCalendar() {
   const [month, setMonth] = useState(value.getMonth())
   const [year, setYear] = useState(value.getFullYear())
   const [datesOfShifts, setDatesOfShifts] = useState([])
-
-
+  const [showMonthlySalary, setShowMonthlySalary] = useState(false)
 
   let dispatch = useDispatch()
   let femi = useSelector(selectFemi)
@@ -36,14 +38,11 @@ export default function MyCalendar() {
   let id_number = localStorage.getItem('id_number')
   let token = localStorage.getItem('token')
 
-
-
   useEffect(() => {
     getMyMonthlyShifts()
   }, [month, year])
 
-
-  const updateDatesWithShifts = (shifts)=>{
+  const updateDatesWithShifts = (shifts) => {
     let dates = []
     for (const shift of shifts) {
       let date = new Date(shift.creationDate)
@@ -71,7 +70,7 @@ export default function MyCalendar() {
       })
   }
 
-  const markWorkingDays = (date,view) => {
+  const markWorkingDays = (date, view) => {
     console.log('view', view)
     let { day, month, year } = fromDateToDateObj(date)
     for (const myDate of datesOfShifts) {
@@ -149,7 +148,6 @@ export default function MyCalendar() {
     }
   }
 
-
   return (
     <div>
       {femi.showModal && ( // tell react to not render it
@@ -161,22 +159,36 @@ export default function MyCalendar() {
       {femi.showAddShift ? (
         <AddShift creationDate={new Date(year, month, day)} />
       ) : (
-        <Calendar
-          tileContent={({ activeStartDay, date,view }) => markWorkingDays(date,view)}
-          onClickDay={(date) => openRightModal(date)}
-          // onClick={(value) => alert('New date is:')}
-          // onClickMonth={(value) => alert('New date is:')}
-          nextLabel={<p onClick={increaseMonth}>{'>'}</p>}
-          prevLabel={<p onClick={decreaseMonth}>{'<'}</p>}
-          next2Label={
-            <p onClick={() => setYear((prev) => prev + 1)}>{'>>'}</p>
-          }
-          prev2Label={
-            <p onClick={() => setYear((prev) => prev - 1)}>{'<<'}</p>
-          }
-          onChange={setValue}
-          value={value}
-        />
+        <>
+          <button onClick={() => setShowMonthlySalary(true)}>
+            משכורת חודשית
+          </button>
+          {showMonthlySalary ? (
+            <MonthlySalary
+              month={month}
+              closeWindow={() => setShowMonthlySalary(false)}
+            />
+          ) : (
+            <Calendar
+              tileContent={({ activeStartDay, date, view }) =>
+                markWorkingDays(date, view)
+              }
+              onClickDay={(date) => openRightModal(date)}
+              // onClick={(value) => alert('New date is:')}
+              // onClickMonth={(value) => alert('New date is:')}
+              nextLabel={<p onClick={increaseMonth}>{'>'}</p>}
+              prevLabel={<p onClick={decreaseMonth}>{'<'}</p>}
+              next2Label={
+                <p onClick={() => setYear((prev) => prev + 1)}>{'>>'}</p>
+              }
+              prev2Label={
+                <p onClick={() => setYear((prev) => prev - 1)}>{'<<'}</p>
+              }
+              onChange={setValue}
+              value={value}
+            />
+          )}
+        </>
       )}
     </div>
   )
