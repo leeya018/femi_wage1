@@ -3,7 +3,7 @@ import api from '../api'
 
 import { useDispatch, useSelector } from 'react-redux'
 import { Form } from 'react-bootstrap'
-import MyModal from './MyModal'
+// import MyShiftModal from './MyShiftModal'
 import Shift from './Shift'
 
 import {
@@ -53,12 +53,12 @@ export default function MyShifts() {
   }
   return (
     <div>
-      {femi.showModal && ( // tell react to not render it
-        <MyModal
+      {/* {femi.showModal && ( // tell react to not render it
+        <MyShiftModal
           show={femi.showModal} // just make it visible
           handleOnHide={() => dispatch(updateShowModal(false))}
         />
-      )}
+      )} */}
       <div>
         <Form>
           <Form.Group controlId="exampleForm.SelectCustomSizeSm">

@@ -2,28 +2,29 @@ const SalaryModel = require("../models/salary-model");
 const util = require("../util");
 
 addSalary = async (req, res) => {
+  debugger
   let id_number = req.headers.id_number;
   let salary = req.body;
   let isFound;
-  try {
-    isFound = await util.isTodaySalaryInDb(id_number);
-    if (isFound) {
-      return res
-        .status(406)
-        .json({
-          success: false,
-          message: " כבר יש משמרת של היום במאגר נתונים",
-        });
-    }
-  } catch (error) {
-    return res.status(400).json({ success: false, message: error });
-  }
+  // try {
+  //   isFound = await util.isTodaySalaryInDb(id_number);
+  //   if (isFound) {
+  //     return res
+  //       .status(406)
+  //       .json({
+  //         success: false,
+  //         message: " כבר יש משמרת של היום במאגר נתונים",
+  //       });
+  //   }
+  // } catch (error) {
+  //   return res.status(400).json({ success: false, message: error });
+  // }
   let newSalary;
   // newSalary = new SalaryModel({ ...salary, creationDate: new Date() });
   // let date = new Date(1501, 1, 22);
-  let date = new Date();
+  let creationDate = salary.creationDate || new Date();
 
-  newSalary = new SalaryModel({ ...salary, creationDate: date });
+  newSalary = new SalaryModel({ ...salary, creationDate });
   if (!newSalary) {
     return res.status(400).json({ success: false, message: err });
   }

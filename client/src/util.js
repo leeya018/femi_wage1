@@ -81,7 +81,8 @@ const createDayInfo = (
   institutions,
   id_number,
   totalSumInstitutions,
-  baseSalary
+  baseSalary,
+  creationDate
 ) => {
   let baseHours = getBaseHours(totalTime)
   let hoursPer125 = get125RateHours(totalTime)
@@ -103,6 +104,7 @@ const createDayInfo = (
     },
     institutions,
     total: Number(fixNum(totalSumInstitutions + baseSalary)),
+    creationDate
   }
   return dayInfo
 }

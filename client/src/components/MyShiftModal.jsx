@@ -7,7 +7,7 @@ import { selectFemi } from '../features/femiSlice'
 import { Modal, Button, Card } from 'react-bootstrap'
 
 
-export default function MyModal({ show, handleOnHide }) {
+export default function MyShiftModal({ show, handleOnHide }) {
   let femi = useSelector(selectFemi)
   let { creationDate } = femi.salById
   let { baseHours, hoursPer125 } = femi.salById.hours

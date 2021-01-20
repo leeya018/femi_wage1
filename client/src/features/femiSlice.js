@@ -13,6 +13,7 @@ const femiSlice = createSlice({
     baseSalary: 0,
     isFriday: false,
     monthlyIncome: {},
+    showAddShift:false,
     allMyShifts: [],
     showModal: false,
     show1: false,
@@ -22,6 +23,9 @@ const femiSlice = createSlice({
   reducers: {
     updateShow1:(state,action)=>{
       state.show1 = action.payload
+    },
+    updateShowAddShift:(state,action)=>{
+      state.showAddShift = action.payload
     },
     resetFemiState: (state, action) => {
       state.startTime = ''
@@ -214,6 +218,7 @@ export const {
   updateInstitutionName,
   toggleFriday,
   updateBaseSalary,
+  updateShowAddShift,
   updateTotalSumPerIns,
   updateTotalTime,
   updateTests,

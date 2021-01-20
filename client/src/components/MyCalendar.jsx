@@ -6,26 +6,39 @@ import {
   selectFemi,
   updateAllMyShifts,
   updateSalaryById,
+  updateShowAddShift,
   updateShowModal,
 } from '../features/femiSlice'
-import MyModal from './MyModal'
+import MyShiftModal from './MyShiftModal'
+
+import AddShift from './AddShift'
 
 import { selectMessages, updateErrMessage } from '../features/messagesSlice'
 
 import savedIcon from '../images/savedIcon.png'
 import '../styles/myCalender.css'
-import api  from '../api'
+import api from '../api'
 
-let month = 1
+let month
 
 let dates = []
 export default function MyCalendar() {
   const [value, setValue] = useState(new Date())
+  const [currDate, setCurrDate] = useState(null)
+
+  
   let dispatch = useDispatch()
   let femi = useSelector(selectFemi)
+
   const img = <img className="saved" src={savedIcon} alt="" />
+
   let id_number = localStorage.getItem('id_number')
   let token = localStorage.getItem('token')
+
+  useEffect(() => {
+    month = value.getMonth()
+    getMyMonthlyShifts(month + 1)
+  }, [])
 
   const getMyMonthlyShifts = (chosenMonth) => {
     month = chosenMonth
@@ -46,22 +59,21 @@ export default function MyCalendar() {
       })
   }
 
-  useEffect(() => {
-    getMyMonthlyShifts(1)
-  }, [])
-
   const markWorkingDays = (date) => {
     return dates.includes(date.getDate()) ? img : null
   }
 
   const openRightModal = (date) => {
+    setCurrDate(date)
     const hasShift = markWorkingDays(date)
     if (hasShift) {
       let shiftId = getShiftIdByDate(date)
       if (shiftId) {
         getSalaryByID(shiftId)
       }
+      return
     }
+    dispatch(updateShowAddShift(true))
   }
 
   const getShiftIdByDate = (date) => {
@@ -92,18 +104,28 @@ export default function MyCalendar() {
   return (
     <div>
       {femi.showModal && ( // tell react to not render it
-        <MyModal
+        <MyShiftModal
           show={femi.showModal} // just make it visible
           handleOnHide={() => dispatch(updateShowModal(false))}
         />
       )}
-      <Calendar
-        tileContent={({ activeStartDay, date }) => markWorkingDays(date)}
-        onClickDay={(date) => openRightModal(date)}
-        onChange={setValue}
-        // onClickDay={()=>alert("this is open the modal to show the shift  ")}
-        value={value}
-      />
+
+      {femi.showAddShift ? (
+        <AddShift creationDate={currDate}/>
+      ) : (
+        <Calendar
+          tileContent={({ activeStartDay, date }) => markWorkingDays(date)}
+          onClickDay={(date) => openRightModal(date)}
+          onChange={setValue}
+          // onClickDay={()=>alert("this is open the modal to show the shift  ")}
+          value={value}
+          // onClickMonth={(value, event) => alert(value)}
+          // onChange={(value, event) => alert( value)}
+          onDrillDown={({ activeStartDate, view }) =>
+            alert('Drilled down to: ', activeStartDate, view)
+          }
+        />
+      )}
     </div>
   )
 }

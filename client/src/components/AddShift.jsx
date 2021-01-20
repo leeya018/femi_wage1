@@ -14,6 +14,7 @@ import {
   selectFemi,
   resetFemiState,
   toggleFriday,
+  updateShowAddShift,
   updateShowModal,
   updateBaseSalary,
   updateEndTime,
@@ -28,7 +29,8 @@ import List from './List'
 import ConfirmModal from './ConfirmModal'
 import ConfirmModalBefore from './ConfirmModalBefore'
 
-export default function AddShift() {
+export default function AddShift({ creationDate }) {
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false)
   let dispatch = useDispatch()
   let femi = useSelector(selectFemi)
   let messagesSelection = useSelector(selectMessages)
@@ -69,7 +71,8 @@ export default function AddShift() {
       institutions,
       id_number,
       femi.totalSumInstitutions,
-      femi.baseSalary
+      femi.baseSalary,
+      creationDate
     )
 
     api
@@ -79,8 +82,8 @@ export default function AddShift() {
         dispatch(updateSuccessMessage(res.data.message))
         dispatch(updateErrMessage(''))
         dispatch(resetFemiState())
-        dispatch(updateShowModal(true))
-        dispatch(updateShow1(false))
+        setShowConfirmationModal(true)
+        // dispatch(updateShow1(false))
       })
       .catch((error) => {
         if (error.response) {
@@ -106,22 +109,27 @@ export default function AddShift() {
 
   return (
     <div>
-      {femi.showModal && ( // tell react to not render it
-        <ConfirmModal
-          show={femi.showModal} // just make it visible
-          handleOnHide={() => dispatch(updateShowModal(false))}
-        />
-      )}
-      {femi.show1 && ( // tell react to not render it
-        <ConfirmModalBefore
-          InstitutionsLen={femi.institutions.length}
-          errMessage={femi.errMessage}
-          addDayInfo={addDayInfo}
-          show={femi.show1} // just make it visible
-          handleOnHide={() => dispatch(updateShow1(false))}
-        />
-      )}
-
+      {/* <ConfirmModal
+          show={showConfirmationModal} // just make it visible
+          handleOnHide={() => setShowConfirmationModal(false)}
+        /> */}
+      <ConfirmModal
+        show={showConfirmationModal} // just make it visible
+        handleOnHide={() => setShowConfirmationModal(false)}
+      />
+      <ConfirmModalBefore
+        InstitutionsLen={femi.institutions.length}
+        errMessage={femi.errMessage}
+        addDayInfo={addDayInfo}
+        show={femi.show1} // just make it visible
+        handleOnHide={() => dispatch(updateShow1(false))}
+      />
+      <Button
+        variant="secondary"
+        onClick={() => dispatch(updateShowAddShift(false))}
+      >
+        סגור
+      </Button>
       <h3 className="title">הזנת יום עבודה</h3>
       <div>
         <input
@@ -171,11 +179,7 @@ export default function AddShift() {
             placeholder="שם המוסד"
             required
           />
-          <FormControl
-            type="number"
-            ref={testsRef}
-            placeholder="מספר דגימות"
-          />
+          <FormControl type="number" ref={testsRef} placeholder="מספר דגימות" />
           <div style={{ color: 'red' }}>{messagesSelection.errMessage}</div>
 
           <Button
@@ -235,7 +239,9 @@ export default function AddShift() {
             messagesSelection.errMessage === '' &&
             messagesSelection.timeErrMessage === '' && (
               <> */}
-          <Button onClick={checkAllFields} style={{marginBottom:"2em"}}>שמור יום עבודה</Button>
+          <Button onClick={checkAllFields} style={{ marginBottom: '2em' }}>
+            שמור יום עבודה
+          </Button>
           {/* </> */}
           {/* )} */}
         </div>

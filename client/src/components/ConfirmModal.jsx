@@ -1,8 +1,15 @@
 import React from 'react'
 import { Modal, Button } from 'react-bootstrap'
 import savedIcon from '../images/savedIcon.png'
-
+import { useDispatch, useSelector } from 'react-redux'
+import { updateShowAddShift } from '../features/femiSlice'
 export default function ConfirmModal({ show, handleOnHide }) {
+  let dispatch = useDispatch()
+
+  const handleOnHide1 = () => {
+    handleOnHide()
+    dispatch(updateShowAddShift(false))
+  }
   return (
     <Modal
       show={show}
@@ -20,7 +27,7 @@ export default function ConfirmModal({ show, handleOnHide }) {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleOnHide}>
+          <Button variant="secondary" onClick={handleOnHide1}>
             Close
           </Button>
         </Modal.Footer>
