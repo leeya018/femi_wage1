@@ -42,7 +42,7 @@ export default function MyCalendar() {
     getMyMonthlyShifts()
   }, [month, year])
 
-  const closeMonthlySalary = ()=>{
+  const closeMonthlySalary = () => {
     setMonth(new Date().getMonth())
     setShowMonthlySalary(false)
   }
@@ -132,7 +132,7 @@ export default function MyCalendar() {
     const dateObj = {
       day: date.getDate(),
       month: date.getMonth(),
-      yearn: date.getDate(),
+      year: date.getFullYear(),
     }
     return dateObj
   }
@@ -165,33 +165,36 @@ export default function MyCalendar() {
         <AddShift creationDate={new Date(year, month, day)} />
       ) : (
         <>
-          <button onClick={() => setShowMonthlySalary(true)}>
-            משכורת חודשית
-          </button>
           {showMonthlySalary ? (
             <MonthlySalary
               month={month}
+              year={year}
               closeWindow={closeMonthlySalary}
             />
           ) : (
-            <Calendar
-              tileContent={({ activeStartDay, date, view }) =>
-                markWorkingDays(date, view)
-              }
-              onClickDay={(date) => openRightModal(date)}
-              // onClick={(value) => alert('New date is:')}
-              // onClickMonth={(value) => alert('New date is:')}
-              nextLabel={<p onClick={increaseMonth}>{'>'}</p>}
-              prevLabel={<p onClick={decreaseMonth}>{'<'}</p>}
-              next2Label={
-                <p onClick={() => setYear((prev) => prev + 1)}>{'>>'}</p>
-              }
-              prev2Label={
-                <p onClick={() => setYear((prev) => prev - 1)}>{'<<'}</p>
-              }
-              onChange={setValue}
-              value={value}
-            />
+            <>
+              <button onClick={() => setShowMonthlySalary(true)}>
+                משכורת חודשית
+              </button>
+              <Calendar
+                tileContent={({ activeStartDay, date, view }) =>
+                  markWorkingDays(date, view)
+                }
+                onClickDay={(date) => openRightModal(date)}
+                // onClick={(value) => alert('New date is:')}
+                // onClickMonth={(value) => alert('New date is:')}
+                nextLabel={<p onClick={increaseMonth}>{'>'}</p>}
+                prevLabel={<p onClick={decreaseMonth}>{'<'}</p>}
+                next2Label={
+                  <p onClick={() => setYear((prev) => prev + 1)}>{'>>'}</p>
+                }
+                prev2Label={
+                  <p onClick={() => setYear((prev) => prev - 1)}>{'<<'}</p>
+                }
+                onChange={setValue}
+                value={value}
+              />
+            </>
           )}
         </>
       )}

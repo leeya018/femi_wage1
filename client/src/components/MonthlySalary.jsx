@@ -6,9 +6,9 @@ import { selectMessages, updateErrMessage } from '../features/messagesSlice'
 import HourlyWage from './HourlyWage'
 import RatesWage from './RatesWage'
 import TotalSummery from './TotalSummery'
-import { Form,Button } from 'react-bootstrap'
+import { Form, Button } from 'react-bootstrap'
 
-export default function MonthlySalary({ month, closeWindow }) {
+export default function MonthlySalary({ month,year, closeWindow }) {
   let dispatch = useDispatch()
   let today = new Date()
   let femi = useSelector(selectFemi)
@@ -19,7 +19,7 @@ export default function MonthlySalary({ month, closeWindow }) {
     let id_number = localStorage.getItem('id_number')
 
     api
-      .getSalaryByMonth(month, id_number, token)
+      .getSalaryByMonth(month,year, id_number, token)
       .then((res) => {
         dispatch(updateMonthlyIncome(res.data))
         dispatch(updateErrMessage(''))
@@ -44,13 +44,15 @@ export default function MonthlySalary({ month, closeWindow }) {
   let { totalWageByCategory, totalWage, rates } = femi.monthlyIncome
   return (
     <div>
+      <Button variant="secondary" onClick={closeWindow}>
+        סגור
+      </Button>
       {messagesSelection.errMessage ? (
         <div style={{ color: 'red' }}>{messagesSelection.errMessage}</div>
       ) : (
         <div>
           {baseHours && (
             <div>
-              <Button variant="secondary" onClick={closeWindow}>סגור</Button>
               <h1>משכורת : {`${month + 1}/2021`}</h1>
               <HourlyWage baseHours={baseHours} hoursPer125={hoursPer125} />
               <RatesWage rates={rates} />

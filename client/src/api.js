@@ -21,8 +21,11 @@ export const signup = (payload) => api.post(`/auth/signup`, payload)
 export const login = (payload) => api.post(`/auth/login`, payload)
 export const saveDay = (payload, id_number, token) =>
   api.post(`/addsalary`, payload, createHeaders(id_number, token))
-export const getSalaryByMonth = (month, id_number, token) =>
-  api.get(`/salarySumUp/?month=${month}`, createHeaders(id_number, token))
+export const getSalaryByMonth = (month, year, id_number, token) =>
+  api.get(
+    `/salarySumUp/?month=${month}&year=${year}`,
+    createHeaders(id_number, token)
+  )
 export const getSalaryByID = (id, id_number, token) =>
   api.get(`/salary/${id}`, createHeaders(id_number, token))
 
