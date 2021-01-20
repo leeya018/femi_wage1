@@ -26,8 +26,11 @@ export const getSalaryByMonth = (month, id_number, token) =>
 export const getSalaryByID = (id, id_number, token) =>
   api.get(`/salary/${id}`, createHeaders(id_number, token))
 
-export const getMyMonthlyShifts = (month, id_number, token) =>
-  api.get(`/salarys/?month=${month}`, createHeaders(id_number, token))
+export const getMyMonthlyShifts = (month, year, id_number, token) =>
+  api.get(
+    `/salarys/?month=${month}&year=${year}`,
+    createHeaders(id_number, token)
+  )
 
 const apis = {
   signup,

@@ -10,23 +10,24 @@ import {
   updateShowModal,
 } from '../features/femiSlice'
 import MyShiftModal from './MyShiftModal'
-
 import AddShift from './AddShift'
-
 import { selectMessages, updateErrMessage } from '../features/messagesSlice'
 
 import savedIcon from '../images/savedIcon.png'
 import '../styles/myCalender.css'
 import api from '../api'
+import { set } from 'mongoose'
 
 let month
 
 let dates = []
 export default function MyCalendar() {
   const [value, setValue] = useState(new Date())
-  const [currDate, setCurrDate] = useState(null)
 
-  
+  const [day, setDay] = useState(value.getDate())
+  const [month, setMonth] = useState(value.getMonth())
+  const [year, setYear] = useState(value.getFullYear())
+
   let dispatch = useDispatch()
   let femi = useSelector(selectFemi)
 
@@ -36,15 +37,12 @@ export default function MyCalendar() {
   let token = localStorage.getItem('token')
 
   useEffect(() => {
-    month = value.getMonth()
-    getMyMonthlyShifts(month + 1)
-  }, [])
+    getMyMonthlyShifts()
+  }, [month, year])
 
-  const getMyMonthlyShifts = (chosenMonth) => {
-    month = chosenMonth
-
+  const getMyMonthlyShifts = () => {
     api
-      .getMyMonthlyShifts(month - 1, id_number, token)
+      .getMyMonthlyShifts(month, year, id_number, token)
       .then((res) => {
         dispatch(updateErrMessage(''))
         dispatch(updateAllMyShifts(res.data))
@@ -60,14 +58,20 @@ export default function MyCalendar() {
   }
 
   const markWorkingDays = (date) => {
-    return dates.includes(date.getDate()) ? img : null
+    let { day, month, year } = fromDateToDateObj(date)
+    for (const myDate of dates) {
+      if (myDate.day == day && myDate.month == month && myDate.year == year) {
+        return img
+      }
+    }
+    return null
   }
 
   const openRightModal = (date) => {
-    setCurrDate(date)
+    setDay(() => date.getDate())
     const hasShift = markWorkingDays(date)
     if (hasShift) {
-      let shiftId = getShiftIdByDate(date)
+      let shiftId = getShiftIdByDate()
       if (shiftId) {
         getSalaryByID(shiftId)
       }
@@ -76,14 +80,21 @@ export default function MyCalendar() {
     dispatch(updateShowAddShift(true))
   }
 
-  const getShiftIdByDate = (date) => {
+  const getShiftIdByDate = () => {
     for (const shift of femi.allMyShifts) {
-      if (new Date(shift.creationDate).getDate() === date.getDate()) {
+      if (new Date(shift.creationDate).getDate() === day) {
         return shift._id
       }
     }
     return null
   }
+
+  // const updateMonthAndYear = (date) => {
+  //   console.log('date', date)
+  //   setMonth(date.getMonth())
+  //   setYear(date.getFullYear())
+  //   setDay(date.getDate())
+  // }
 
   const getSalaryByID = (shiftId) => {
     api
@@ -98,8 +109,35 @@ export default function MyCalendar() {
       })
   }
 
+  const fromDateToDateObj = (date) => {
+    const dateObj = {
+      day: date.getDate(),
+      month: date.getMonth(),
+      yearn: date.getDate(),
+    }
+    return dateObj
+  }
+
+  const increaseMonth = () => {
+    let prevMonth = month
+    setMonth((prev) => (prev + 1) % 12)
+    if (prevMonth == 11) {
+      setYear((prev) => prev + 1)
+    }
+  }
+
+  const decreaseMonth = () => {
+    let prevMonth = month
+    setMonth((prev) => (((prev - 1) % 12) + 12) % 12)
+    if (prevMonth == 0) {
+      setYear((prev) => prev - 1)
+    }
+  }
+
   for (const shift of femi.allMyShifts) {
-    dates.push(new Date(shift.creationDate).getDate())
+    let date = new Date(shift.creationDate)
+    const dateObj = fromDateToDateObj(date)
+    dates.push(dateObj)
   }
   return (
     <div>
@@ -109,21 +147,24 @@ export default function MyCalendar() {
           handleOnHide={() => dispatch(updateShowModal(false))}
         />
       )}
-
       {femi.showAddShift ? (
-        <AddShift creationDate={currDate}/>
+        <AddShift creationDate={new Date(year, month, day)} />
       ) : (
         <Calendar
           tileContent={({ activeStartDay, date }) => markWorkingDays(date)}
           onClickDay={(date) => openRightModal(date)}
-          onChange={setValue}
-          // onClickDay={()=>alert("this is open the modal to show the shift  ")}
-          value={value}
-          // onClickMonth={(value, event) => alert(value)}
-          // onChange={(value, event) => alert( value)}
-          onDrillDown={({ activeStartDate, view }) =>
-            alert('Drilled down to: ', activeStartDate, view)
+          // onClick={(value) => alert('New date is:')}
+          // onClickMonth={(value) => alert('New date is:')}
+          nextLabel={<button onClick={increaseMonth}>{'>'}</button>}
+          prevLabel={<button onClick={decreaseMonth}>{'<'}</button>}
+          next2Label={
+            <button onClick={() => setYear((prev) => prev + 1)}>{'>>'}</button>
           }
+          prev2Label={
+            <button onClick={() => setYear((prev) => prev - 1)}>{'<<'}</button>
+          }
+          onChange={setValue}
+          value={value}
         />
       )}
     </div>
