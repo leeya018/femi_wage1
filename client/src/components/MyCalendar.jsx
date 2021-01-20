@@ -18,15 +18,15 @@ import '../styles/myCalender.css'
 import api from '../api'
 import { set } from 'mongoose'
 
-let month
-
-let dates = []
 export default function MyCalendar() {
   const [value, setValue] = useState(new Date())
 
   const [day, setDay] = useState(value.getDate())
   const [month, setMonth] = useState(value.getMonth())
   const [year, setYear] = useState(value.getFullYear())
+  const [datesOfShifts, setDatesOfShifts] = useState([])
+
+
 
   let dispatch = useDispatch()
   let femi = useSelector(selectFemi)
@@ -36,9 +36,22 @@ export default function MyCalendar() {
   let id_number = localStorage.getItem('id_number')
   let token = localStorage.getItem('token')
 
+
+
   useEffect(() => {
     getMyMonthlyShifts()
   }, [month, year])
+
+
+  const updateDatesWithShifts = (shifts)=>{
+    let dates = []
+    for (const shift of shifts) {
+      let date = new Date(shift.creationDate)
+      const dateObj = fromDateToDateObj(date)
+      dates.push(dateObj)
+    }
+    setDatesOfShifts(dates)
+  }
 
   const getMyMonthlyShifts = () => {
     api
@@ -46,6 +59,7 @@ export default function MyCalendar() {
       .then((res) => {
         dispatch(updateErrMessage(''))
         dispatch(updateAllMyShifts(res.data))
+        updateDatesWithShifts(res.data)
       })
       .catch((err) => {
         console.log('err', err)
@@ -57,9 +71,10 @@ export default function MyCalendar() {
       })
   }
 
-  const markWorkingDays = (date) => {
+  const markWorkingDays = (date,view) => {
+    console.log('view', view)
     let { day, month, year } = fromDateToDateObj(date)
-    for (const myDate of dates) {
+    for (const myDate of datesOfShifts) {
       if (myDate.day == day && myDate.month == month && myDate.year == year) {
         return img
       }
@@ -134,11 +149,7 @@ export default function MyCalendar() {
     }
   }
 
-  for (const shift of femi.allMyShifts) {
-    let date = new Date(shift.creationDate)
-    const dateObj = fromDateToDateObj(date)
-    dates.push(dateObj)
-  }
+
   return (
     <div>
       {femi.showModal && ( // tell react to not render it
@@ -151,17 +162,17 @@ export default function MyCalendar() {
         <AddShift creationDate={new Date(year, month, day)} />
       ) : (
         <Calendar
-          tileContent={({ activeStartDay, date }) => markWorkingDays(date)}
+          tileContent={({ activeStartDay, date,view }) => markWorkingDays(date,view)}
           onClickDay={(date) => openRightModal(date)}
           // onClick={(value) => alert('New date is:')}
           // onClickMonth={(value) => alert('New date is:')}
-          nextLabel={<button onClick={increaseMonth}>{'>'}</button>}
-          prevLabel={<button onClick={decreaseMonth}>{'<'}</button>}
+          nextLabel={<p onClick={increaseMonth}>{'>'}</p>}
+          prevLabel={<p onClick={decreaseMonth}>{'<'}</p>}
           next2Label={
-            <button onClick={() => setYear((prev) => prev + 1)}>{'>>'}</button>
+            <p onClick={() => setYear((prev) => prev + 1)}>{'>>'}</p>
           }
           prev2Label={
-            <button onClick={() => setYear((prev) => prev - 1)}>{'<<'}</button>
+            <p onClick={() => setYear((prev) => prev - 1)}>{'<<'}</p>
           }
           onChange={setValue}
           value={value}
