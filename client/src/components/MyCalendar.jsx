@@ -42,6 +42,11 @@ export default function MyCalendar() {
     getMyMonthlyShifts()
   }, [month, year])
 
+  const closeMonthlySalary = ()=>{
+    setMonth(new Date().getMonth())
+    setShowMonthlySalary(false)
+  }
+
   const updateDatesWithShifts = (shifts) => {
     let dates = []
     for (const shift of shifts) {
@@ -166,7 +171,7 @@ export default function MyCalendar() {
           {showMonthlySalary ? (
             <MonthlySalary
               month={month}
-              closeWindow={() => setShowMonthlySalary(false)}
+              closeWindow={closeMonthlySalary}
             />
           ) : (
             <Calendar
