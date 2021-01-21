@@ -8,6 +8,7 @@ import { BrowserRouter as Router } from 'react-router-dom'
 function App() {
   const [isLogged, setIsLogged] = useState(localStorage.getItem("id_number"))
 
+
   const updateLogged = (userIsLog) => {
     setIsLogged(userIsLog)
   }

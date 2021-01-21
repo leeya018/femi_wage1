@@ -12,7 +12,7 @@ import Signup from './Signup'
 import Login from './Login'
 import Nav from './MyNav'
 import { useHistory, useLocation } from 'react-router-dom'
-import MyCalendar from "./MyCalendar"
+import MyCalendar from './MyCalendar'
 export default function MyRouter({ updateLogged, isLogged }) {
   const history = useHistory()
   const location = useLocation()

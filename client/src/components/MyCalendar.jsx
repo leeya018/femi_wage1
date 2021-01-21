@@ -12,20 +12,20 @@ import {
 } from '../features/femiSlice'
 import MyShiftModal from './MyShiftModal'
 import MonthlySalary from './MonthlySalary'
-import AddShift from './AddShift'
 import { selectMessages, updateErrMessage } from '../features/messagesSlice'
 
 import savedIcon from '../images/savedIcon.png'
 import '../styles/myCalender.css'
 import api from '../api'
+import MyAddShiftModal from './MyAddShiftModal'
 
 export default function MyCalendar() {
   const [value, setValue] = useState(new Date())
-  const [showConfirmationModal, setShowConfirmationModal] = useState(false)
-
   const [day, setDay] = useState(value.getDate())
   const [month, setMonth] = useState(value.getMonth())
   const [year, setYear] = useState(value.getFullYear())
+
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false)
   const [datesOfShifts, setDatesOfShifts] = useState([])
   const [showMonthlySalary, setShowMonthlySalary] = useState(false)
 
@@ -38,9 +38,10 @@ export default function MyCalendar() {
   let token = localStorage.getItem('token')
 
   useEffect(() => {
-    if (!showConfirmationModal) {
-      getMyMonthlyShifts()
-    }
+    // if (!showConfirmationModal) {
+    console.log('this si chabg e')
+    getMyMonthlyShifts()
+    // }
   }, [month, year, showConfirmationModal])
 
   const closeMonthlySalary = () => {
@@ -112,13 +113,6 @@ export default function MyCalendar() {
     return null
   }
 
-  // const updateMonthAndYear = (date) => {
-  //   'date', date)
-  //   setMonth(date.getMonth())
-  //   setYear(date.getFullYear())
-  //   setDay(date.getDate())
-  // }
-
   const getSalaryByID = (shiftId) => {
     api
       .getSalaryByID(shiftId, id_number, token)
@@ -126,8 +120,7 @@ export default function MyCalendar() {
         dispatch(updateSalaryById(res.data))
         dispatch(updateShowModal(true))
       })
-      .catch((err) => {
-      })
+      .catch((err) => {})
   }
 
   const fromDateToDateObj = (date) => {
@@ -163,47 +156,58 @@ export default function MyCalendar() {
           handleOnHide={() => dispatch(updateShowModal(false))}
         />
       )}
-      {femi.showAddShift ? (
-        <AddShift
+      {femi.showAddShift && (
+        <MyAddShiftModal
           showConfirmationModal={showConfirmationModal}
           updateShowConfirmationModal={setShowConfirmationModal}
           creationDate={new Date(year, month, day)}
+          show={femi.showAddShift}
+          handleOnHide={() => dispatch(updateShowAddShift(false))}
         />
-      ) : (
-        <>
-          {showMonthlySalary ? (
-            <MonthlySalary
-              month={month}
-              year={year}
-              closeWindow={closeMonthlySalary}
-            />
-          ) : (
-            <>
-              <button onClick={() => setShowMonthlySalary(true)}>
-                משכורת חודשית
-              </button>
-              <Calendar
-                tileContent={({ activeStartDay, date, view }) =>
-                  markWorkingDays(date, view)
-                }
-                onClickDay={(date) => openRightModal(date)}
-                // onClick={(value) => alert('New date is:')}
-                // onClickMonth={(value) => alert('New date is:')}
-                nextLabel={<p onClick={increaseMonth}>{'>'}</p>}
-                prevLabel={<p onClick={decreaseMonth}>{'<'}</p>}
-                next2Label={
-                  <p onClick={() => setYear((prev) => prev + 1)}>{'>>'}</p>
-                }
-                prev2Label={
-                  <p onClick={() => setYear((prev) => prev - 1)}>{'<<'}</p>
-                }
-                onChange={setValue}
-                value={value}
-              />
-            </>
-          )}
-        </>
       )}
+      // ) : ( //{' '}
+      <>
+        //{' '}
+        {/* {showMonthlySalary ? (
+          //   <MonthlySalary
+          //     month={month}
+          //     year={year}
+          //     closeWindow={closeMonthlySalary}
+          //   />
+          // ) : ( */}
+        <>
+          <button onClick={() => setShowMonthlySalary(true)}>
+            משכורת חודשית
+          </button>
+          <Calendar
+            tileContent={({ activeStartDay, date, view }) =>
+              markWorkingDays(date, view)
+            }
+            onClickDay={(date) => openRightModal(date)}
+            // onClick={(value) => alert('New date is:')}
+            // onClickMonth={(value) => alert('New date is:')}
+            nextLabel={<p onClick={increaseMonth}>{'>'}</p>}
+            prevLabel={<p onClick={decreaseMonth}>{'<'}</p>}
+            next2Label={
+              <p onClick={() => setYear((prev) => prev + 1)}>{'>>'}</p>
+            }
+            prev2Label={
+              <p onClick={() => setYear((prev) => prev - 1)}>{'<<'}</p>
+            }
+            onChange={setValue}
+            value={value}
+          />
+        </>
+        // )} //{' '}
+      </>
+      // )}
     </div>
   )
 }
+
+// const updateMonthAndYear = (date) => {
+//   'date', date)
+//   setMonth(date.getMonth())
+//   setYear(date.getFullYear())
+//   setDay(date.getDate())
+// }
