@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react'
 import Calendar from 'react-calendar'
 import 'react-calendar/dist/Calendar.css'
 import { Button } from 'react-bootstrap'
-
 import { useDispatch, useSelector } from 'react-redux'
 import {
   selectFemi,
@@ -19,10 +18,10 @@ import { selectMessages, updateErrMessage } from '../features/messagesSlice'
 import savedIcon from '../images/savedIcon.png'
 import '../styles/myCalender.css'
 import api from '../api'
-import { set } from 'mongoose'
 
 export default function MyCalendar() {
   const [value, setValue] = useState(new Date())
+  const [showConfirmationModal, setShowConfirmationModal] = useState(false)
 
   const [day, setDay] = useState(value.getDate())
   const [month, setMonth] = useState(value.getMonth())
@@ -39,8 +38,10 @@ export default function MyCalendar() {
   let token = localStorage.getItem('token')
 
   useEffect(() => {
-    getMyMonthlyShifts()
-  }, [month, year])
+    if (!showConfirmationModal) {
+      getMyMonthlyShifts()
+    }
+  }, [month, year, showConfirmationModal])
 
   const closeMonthlySalary = () => {
     setMonth(new Date().getMonth())
@@ -66,7 +67,6 @@ export default function MyCalendar() {
         updateDatesWithShifts(res.data)
       })
       .catch((err) => {
-        console.log('err', err)
         if (err.response) {
           dispatch(updateErrMessage(err.response.data.message))
         } else {
@@ -76,7 +76,6 @@ export default function MyCalendar() {
   }
 
   const markWorkingDays = (date, view) => {
-    console.log('view', view)
     let { day, month, year } = fromDateToDateObj(date)
     for (const myDate of datesOfShifts) {
       if (myDate.day == day && myDate.month == month && myDate.year == year) {
@@ -86,11 +85,16 @@ export default function MyCalendar() {
     return null
   }
 
+  // const isDateInDates = (date) => {
+  //   let img = markWorkingDays(date)
+  //   return img ? true : false
+  // }
+
   const openRightModal = (date) => {
     setDay(() => date.getDate())
     const hasShift = markWorkingDays(date)
     if (hasShift) {
-      let shiftId = getShiftIdByDate()
+      let shiftId = getShiftIdByDate(date)
       if (shiftId) {
         getSalaryByID(shiftId)
       }
@@ -99,9 +103,9 @@ export default function MyCalendar() {
     dispatch(updateShowAddShift(true))
   }
 
-  const getShiftIdByDate = () => {
+  const getShiftIdByDate = (date) => {
     for (const shift of femi.allMyShifts) {
-      if (new Date(shift.creationDate).getDate() === day) {
+      if (new Date(shift.creationDate).getDate() === date.getDate()) {
         return shift._id
       }
     }
@@ -109,7 +113,7 @@ export default function MyCalendar() {
   }
 
   // const updateMonthAndYear = (date) => {
-  //   console.log('date', date)
+  //   'date', date)
   //   setMonth(date.getMonth())
   //   setYear(date.getFullYear())
   //   setDay(date.getDate())
@@ -119,12 +123,10 @@ export default function MyCalendar() {
     api
       .getSalaryByID(shiftId, id_number, token)
       .then((res) => {
-        console.log(res.data)
         dispatch(updateSalaryById(res.data))
         dispatch(updateShowModal(true))
       })
       .catch((err) => {
-        console.log('err', err)
       })
   }
 
@@ -162,7 +164,11 @@ export default function MyCalendar() {
         />
       )}
       {femi.showAddShift ? (
-        <AddShift creationDate={new Date(year, month, day)} />
+        <AddShift
+          showConfirmationModal={showConfirmationModal}
+          updateShowConfirmationModal={setShowConfirmationModal}
+          creationDate={new Date(year, month, day)}
+        />
       ) : (
         <>
           {showMonthlySalary ? (

@@ -74,16 +74,12 @@ const femiSlice = createSlice({
         institutions: state.institutions,
         total: util.fixNum(state.totalSumInstitutions + state.baseSalary),
       }
-      console.log('dayInfo', dayInfo)
-      console.log('state.institutions', JSON.stringify(state.institutions))
 
       api
         .saveDay(dayInfo)
         .then((res) => {
-          console.log('res.data', res.data)
         })
         .catch((error) => {
-          console.log('error', error.response.data.message)
         })
     },
     addInstitution: (state, action) => {

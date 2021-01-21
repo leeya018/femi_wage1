@@ -27,18 +27,14 @@ export default function MonthlySalary({ month,year, closeWindow }) {
       .catch((err) => {
         if (err.response && err.response.data) {
           dispatch(updateErrMessage(err.response.data.message))
-          console.log(err.response.data.message)
         } else {
-          console.log(err.message)
           dispatch(updateErrMessage(err.message))
         }
       })
   }
 
   useEffect(() => {
-    console.log('this is first useEffect')
     getSalaryByMonth(month)
-    console.log('there is a refresh for ref')
   }, [])
   let { baseHours, hoursPer125 } = femi.monthlyIncome.hours || {}
   let { totalWageByCategory, totalWage, rates } = femi.monthlyIncome

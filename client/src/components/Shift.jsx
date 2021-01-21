@@ -15,12 +15,10 @@ export default function Shift({ updateSal, _id, total, creationDate }) {
       .getSalaryByID(_id, id_number, token)
       .then((res) => {
         // dispatch(updateErrMessage(''))
-        console.log(res.data)
         updateSal(res.data)
         dispatch(updateShowModal(true))
       })
       .catch((err) => {
-        console.log('err', err)
         // if (err.response) {
         //   dispatch(updateErrMessage(err.response.data.message))
         // } else {

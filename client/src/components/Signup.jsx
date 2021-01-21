@@ -54,7 +54,6 @@ export default function Signup() {
     api
       .signup(newUser)
       .then((res) => {
-        console.log(res.data)
         dispatch(updateErrMessage(''))
         dispatch(updateSuccessMessage('נרשמת בהצלחה'))
         setTimeout(() => {
@@ -62,7 +61,6 @@ export default function Signup() {
         }, 500)
       })
       .catch((err) => {
-        console.log(JSON.stringify(err.response.data.message))
         dispatch(updateErrMessage(err.response.data.message))
       })
   }

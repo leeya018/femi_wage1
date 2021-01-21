@@ -33,7 +33,6 @@ export default function MyShifts() {
         dispatch(updateAllMyShifts(res.data))
       })
       .catch((err) => {
-        console.log('err', err)
         if (err.response) {
           dispatch(updateErrMessage(err.response.data.message))
         } else {

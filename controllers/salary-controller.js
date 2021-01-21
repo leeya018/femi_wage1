@@ -2,7 +2,6 @@ const SalaryModel = require("../models/salary-model");
 const util = require("../util");
 
 addSalary = async (req, res) => {
-  debugger
   let id_number = req.headers.id_number;
   let salary = req.body;
   let isFound;
@@ -19,12 +18,13 @@ addSalary = async (req, res) => {
   // } catch (error) {
   //   return res.status(400).json({ success: false, message: error });
   // }
-  let newSalary;
+
   // newSalary = new SalaryModel({ ...salary, creationDate: new Date() });
   // let date = new Date(1501, 1, 22);
+  // debugger;
   let creationDate = salary.creationDate || new Date();
 
-  newSalary = new SalaryModel({ ...salary, creationDate });
+  let newSalary = new SalaryModel({ ...salary, creationDate });
   if (!newSalary) {
     return res.status(400).json({ success: false, message: err });
   }

@@ -38,7 +38,6 @@ export default function Login({ updateLogged }) {
     api
       .login(userInfo)
       .then((res) => {
-        console.log(res.data)
         updateLogged(true)
         history.push('/addshift')
 
@@ -48,7 +47,6 @@ export default function Login({ updateLogged }) {
         dispatch(updateErrMessage(''))
       })
       .catch((err) => {
-        console.log(JSON.stringify(err.response.data.message))
         dispatch(updateErrMessage(err.response.data.message))
       })
   }

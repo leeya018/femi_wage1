@@ -29,8 +29,7 @@ import List from './List'
 import ConfirmModal from './ConfirmModal'
 import ConfirmModalBefore from './ConfirmModalBefore'
 
-export default function AddShift({ creationDate }) {
-  const [showConfirmationModal, setShowConfirmationModal] = useState(false)
+export default function AddShift({ creationDate ,showConfirmationModal,updateShowConfirmationModal}) {
   let dispatch = useDispatch()
   let femi = useSelector(selectFemi)
   let messagesSelection = useSelector(selectMessages)
@@ -47,7 +46,6 @@ export default function AddShift({ creationDate }) {
     let { startTime, endTime } = femi
     if (startTime && endTime) {
       dispatch(updateTotalTime())
-      console.log('femi.totalTime : ' + femi.totalTime)
       dispatch(updateBaseSalary())
     }
   }, [femi.startTime, femi.endTime])
@@ -62,7 +60,6 @@ export default function AddShift({ creationDate }) {
     }
   }, [femi.totalTime])
 
-  console.log(femi.totalTime)
   const addDayInfo = () => {
     let { totalTime, institutions } = femi
     let id_number = localStorage.getItem('id_number')
@@ -78,19 +75,16 @@ export default function AddShift({ creationDate }) {
     api
       .saveDay(dayInfo, id_number, token)
       .then((res) => {
-        console.log('res.data', res.data)
         dispatch(updateSuccessMessage(res.data.message))
         dispatch(updateErrMessage(''))
         dispatch(resetFemiState())
-        setShowConfirmationModal(true)
-        // dispatch(updateShow1(false))
+        updateShowConfirmationModal(true)
+        dispatch(updateShow1(false))
       })
       .catch((error) => {
         if (error.response) {
-          console.log(error.response.data.message)
           dispatch(updateErrMessage(error.response.data.message))
         } else {
-          console.log(error.message)
           dispatch(updateErrMessage(error.message))
         }
       })
@@ -98,7 +92,7 @@ export default function AddShift({ creationDate }) {
 
   const checkAllFields = () => {
     if (femi.institutions.length < 1) {
-      dispatch(updateErrMessage('חייב להכניס מוסד  אחד לפחות'))
+      dispatch(updateErrMessage('חייב להכניס מוסד אחד לפחות'))
       return
     }
     if (messagesSelection.errMessage !== '') {
@@ -115,7 +109,7 @@ export default function AddShift({ creationDate }) {
         /> */}
       <ConfirmModal
         show={showConfirmationModal} // just make it visible
-        handleOnHide={() => setShowConfirmationModal(false)}
+        handleOnHide={() => updateShowConfirmationModal(false)}
       />
       <ConfirmModalBefore
         InstitutionsLen={femi.institutions.length}
