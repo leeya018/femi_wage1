@@ -1,15 +1,14 @@
 const SalaryModel = require("./models/salary-model");
-const isTodaySalaryInDb = async (id_number) => {
-  let today = new Date();
-  var nextDay = new Date();
-  nextDay.setDate(today.getDate() + 1);
+const isTodaySalaryInDb = async (id_number,date) => {
+  var nextDay = new Date(date);
+  nextDay.setDate(nextDay.getDate() + 1);
   let salary;
   try {
     salary = await SalaryModel.findOne({
       id_number,
       creationDate: {
-        $gte: new Date(today.getFullYear(),today.getMonth(),today.getDate()),
-        $lt: new Date(today.getFullYear(),today.getMonth(),today.getDate()+1),
+        $gte: new Date(date.getFullYear(),date.getMonth(),date.getDate()),
+        $lt: new Date(nextDay.getFullYear(),nextDay.getMonth(),nextDay.getDate()),
       },
     });
 

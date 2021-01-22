@@ -56,7 +56,6 @@ const getDiffInTimesStr = (startTime, endTime) => {
   if (h === 0 && m === 0) return 0
   if (h === 0 && m < 0) return -1
 
-
   let diffTimeStr, minutes
   if (m < 0) {
     minutes = addZero(60 + m)
@@ -104,7 +103,7 @@ const createDayInfo = (
     },
     institutions,
     total: Number(fixNum(totalSumInstitutions + baseSalary)),
-    creationDate
+    creationDate,
   }
   return dayInfo
 }
@@ -115,10 +114,11 @@ const formatDate = (dateStr) => {
   return `${day}/${month}/${year}`
 }
 
-const formatDate1 = (dateStr) => {
-  let [year, month, thirdPart] = dateStr.split('-')
-  let day = Number(thirdPart.split('T')[0])
-  return `${month}/${day}/${year}`
+const formatDateObjToStr = (date) => {
+  let day = date.getDate()
+  let month = date.getMonth() + 1
+  let year = date.getFullYear()
+  return `${day}/${month}/${year}`
 }
 
 const formatDateForMonth = (dateStr) => {
@@ -149,5 +149,5 @@ export default {
   formatDate,
   fromLineToDot,
   formatDateForMonth,
-  formatDate1,
+  formatDateObjToStr
 }

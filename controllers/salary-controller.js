@@ -5,8 +5,9 @@ addSalary = async (req, res) => {
   let id_number = req.headers.id_number;
   let salary = req.body;
   let isFound;
+  let creationDate = new Date(salary.creationDate) 
   try {
-    isFound = await util.isTodaySalaryInDb(id_number);
+    isFound = await util.isTodaySalaryInDb(id_number,creationDate);
     if (isFound) {
       return res
         .status(406)
@@ -22,7 +23,10 @@ addSalary = async (req, res) => {
   // newSalary = new SalaryModel({ ...salary, creationDate: new Date() });
   // let date = new Date(1501, 1, 22);
   // debugger;
-  let creationDate = salary.creationDate || new Date();
+
+
+  // let creationDate = new Date();
+
 
   let newSalary = new SalaryModel({ ...salary, creationDate });
   if (!newSalary) {

@@ -25,20 +25,21 @@ export default function MyRouter({ updateLogged, isLogged }) {
     }
   }, [])
   return (
-    <MyCalendar />
-    // <Switch>
-    //   <Route exact path="/">
-    //     {!isLogged ? <Redirect to="/login" /> : <Redirect to="/addshift" />}
-    //   </Route>
+    <Switch>
+      <Route exact path="/">
+        {!isLogged ? <Redirect to="/login" /> : <Redirect to="/calender" />}
+      </Route>
 
-    //   <Route
-    //     path="/login"
-    //     component={() => <Login updateLogged={updateLogged} />}
-    //   ></Route>
-    //   <Route path="/signup" component={Signup}></Route>
-    //   <Route path="/myshifts" component={MyShifts}></Route>
-    //   <Route path="/addshift" component={AddShift}></Route>
-    //   <Route path="/monthlysalary" component={MonthlySalary}></Route>
-    // </Switch>
+      <Route
+        path="/login"
+        component={() => <Login updateLogged={updateLogged} />}
+      ></Route>
+      
+      <Route
+        path="/calender"
+        component={() => <MyCalendar />}
+      ></Route>
+      <Route path="/signup" component={Signup}></Route>
+    </Switch>
   )
 }

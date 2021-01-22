@@ -27,7 +27,7 @@ export default function Shift({ updateSal, _id, total, creationDate }) {
       })
   }
   let day = parseInt(creationDate.split('-')[2])
-  let parsedDate = util.formatDate1(creationDate)
+  let parsedDate = util.formatDate(creationDate)
   let dayOfWeek = new Date(parsedDate).toLocaleString('default', {
     weekday: 'long',
   })

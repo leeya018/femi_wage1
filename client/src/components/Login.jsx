@@ -23,7 +23,7 @@ export default function Login({ updateLogged }) {
   useEffect(() => {
     dispatch(updateSuccessMessage(''))
     if(localStorage.getItem("id_number")){
-      history.push('/addshift')
+      history.push('/calender')
     }
   }, [])
   const handleLogin = () => {
@@ -39,7 +39,7 @@ export default function Login({ updateLogged }) {
       .login(userInfo)
       .then((res) => {
         updateLogged(true)
-        history.push('/addshift')
+        history.push('/calender')
 
         localStorage.setItem('token', res.data.token)
         localStorage.setItem('id_number', res.data.id_number)

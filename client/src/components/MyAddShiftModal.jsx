@@ -26,7 +26,7 @@ export default function MyAddShiftModal({
     >
       <Modal.Dialog>
         <Modal.Header closeButton>
-          <Modal.Title>{creationDate.toString()}</Modal.Title>
+          <Modal.Title>{util.formatDateObjToStr(creationDate)}</Modal.Title>
         </Modal.Header>
 
         <Modal.Body>
