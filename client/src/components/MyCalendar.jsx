@@ -178,6 +178,7 @@ export default function MyCalendar() {
           משכורת חודשית
         </button>
         <Calendar
+        calendarType={"Hebrew"}
           tileContent={({ activeStartDay, date, view }) =>
             markWorkingDays(date, view)
           }
