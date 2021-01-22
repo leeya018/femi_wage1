@@ -30,10 +30,9 @@ export default function MyAddShiftModal({
         </Modal.Header>
 
         <Modal.Body>
-          <Card style={{ width: '18rem', border: 'none' }}>
+          <Card style={{ width: '18rem', border: 'none', margin:'auto' }}>
             <Card.Header></Card.Header>
             <Card.Body>
-                "fkljfklasdjkfdas"
               <AddShift
                 showConfirmationModal={showConfirmationModal}
                 updateShowConfirmationModal={updateShowConfirmationModal}

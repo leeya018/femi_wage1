@@ -29,7 +29,11 @@ import List from './List'
 import ConfirmModal from './ConfirmModal'
 import ConfirmModalBefore from './ConfirmModalBefore'
 
-export default function AddShift({ creationDate ,showConfirmationModal,updateShowConfirmationModal}) {
+export default function AddShift({
+  creationDate,
+  showConfirmationModal,
+  updateShowConfirmationModal,
+}) {
   let dispatch = useDispatch()
   let femi = useSelector(selectFemi)
   let messagesSelection = useSelector(selectMessages)
@@ -102,11 +106,7 @@ export default function AddShift({ creationDate ,showConfirmationModal,updateSho
   }
 
   return (
-    <div>
-      {/* <ConfirmModal
-          show={showConfirmationModal} // just make it visible
-          handleOnHide={() => setShowConfirmationModal(false)}
-        /> */}
+    <div className="add-shift">
       <ConfirmModal
         show={showConfirmationModal} // just make it visible
         handleOnHide={() => updateShowConfirmationModal(false)}
@@ -118,12 +118,14 @@ export default function AddShift({ creationDate ,showConfirmationModal,updateSho
         show={femi.show1} // just make it visible
         handleOnHide={() => dispatch(updateShow1(false))}
       />
-      <Button
-        variant="secondary"
-        onClick={() => dispatch(updateShowAddShift(false))}
-      >
-        סגור
-      </Button>
+      <div className="btn-container">
+        <Button
+          variant="secondary"
+          onClick={() => dispatch(updateShowAddShift(false))}
+        >
+          סגור
+        </Button>
+      </div>
       <h3 className="title">הזנת יום עבודה</h3>
       <div>
         <input
@@ -168,12 +170,18 @@ export default function AddShift({ creationDate ,showConfirmationModal,updateSho
       <div>
         <div>
           <FormControl
+            className="inst-input"
             type="text"
             ref={institutionNameRef}
             placeholder="שם המוסד"
             required
           />
-          <FormControl type="number" ref={testsRef} placeholder="מספר דגימות" />
+          <FormControl
+            className="inst-input"
+            type="number"
+            ref={testsRef}
+            placeholder="מספר דגימות"
+          />
           <div style={{ color: 'red' }}>{messagesSelection.errMessage}</div>
 
           <Button

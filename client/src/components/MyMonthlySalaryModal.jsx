@@ -14,7 +14,6 @@ export default function MyMonthlySalaryModal({
   handleOnHide,
 }) {
   let femi = useSelector(selectFemi)
-
   return (
     <Modal
       show={show}

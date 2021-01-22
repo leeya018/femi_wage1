@@ -7,6 +7,8 @@ import HourlyWage from './HourlyWage'
 import RatesWage from './RatesWage'
 import TotalSummery from './TotalSummery'
 import { Form, Button } from 'react-bootstrap'
+import "../styles/monthlySalary.css"
+
 
 export default function MonthlySalary({ month,year, closeWindow }) {
   let dispatch = useDispatch()
@@ -39,10 +41,13 @@ export default function MonthlySalary({ month,year, closeWindow }) {
   let { baseHours, hoursPer125 } = femi.monthlyIncome.hours || {}
   let { totalWageByCategory, totalWage, rates } = femi.monthlyIncome
   return (
-    <div>
+    <div className="monthly-salary">
+      <div>
       <Button variant="secondary" onClick={closeWindow}>
         סגור
       </Button>
+
+      </div>
       {messagesSelection.errMessage ? (
         <div style={{ color: 'red' }}>{messagesSelection.errMessage}</div>
       ) : (

@@ -1,3 +1,7 @@
 .error {
     margin-bottom: 16em;
 }
+
+.monthly-salary>*{
+    text-align: center;
+}

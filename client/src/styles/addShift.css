@@ -1,9 +1,16 @@
 .title {
-    font-family: 'Tangerine';
-    font-size: 2em; 
+  font-family: 'Tangerine';
+  font-size: 2em;
 }
 
-.saved{
-    height: 2em;
-    width: 2em;
+.saved {
+  height: 2em;
+  width: 2em;
+}
+
+.add-shift > * {
+  text-align: center;
+}
+input {
+  text-align: right;
 }
