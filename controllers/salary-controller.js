@@ -20,14 +20,6 @@ addSalary = async (req, res) => {
     return res.status(400).json({ success: false, message: error });
   }
 
-  // newSalary = new SalaryModel({ ...salary, creationDate: new Date() });
-  // let date = new Date(1501, 1, 22);
-  // debugger;
-
-
-  // let creationDate = new Date();
-
-
   let newSalary = new SalaryModel({ ...salary, creationDate });
   if (!newSalary) {
     return res.status(400).json({ success: false, message: err });
