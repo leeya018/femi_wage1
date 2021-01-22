@@ -38,10 +38,7 @@ export default function MyCalendar() {
   let token = localStorage.getItem('token')
 
   useEffect(() => {
-    // if (!showConfirmationModal) {
-    console.log('this si chabg e')
     getMyMonthlyShifts()
-    // }
   }, [month, year, showConfirmationModal])
 
   const closeMonthlySalary = () => {
@@ -86,10 +83,6 @@ export default function MyCalendar() {
     return null
   }
 
-  // const isDateInDates = (date) => {
-  //   let img = markWorkingDays(date)
-  //   return img ? true : false
-  // }
 
   const openRightModal = (date) => {
     setDay(() => date.getDate())
@@ -190,7 +183,7 @@ export default function MyCalendar() {
           onChange={setValue}
           value={value}
           maxDate={new Date()}
-          minDate={new Date(2020,9,5)}
+          minDate={new Date(2021,0,1)}
 
         />
       </>
@@ -198,9 +191,3 @@ export default function MyCalendar() {
   )
 }
 
-// const updateMonthAndYear = (date) => {
-//   'date', date)
-//   setMonth(date.getMonth())
-//   setYear(date.getFullYear())
-//   setDay(date.getDate())
-// }
