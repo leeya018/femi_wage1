@@ -13,6 +13,7 @@ export default function ConfirmModalBefore({
   let messagesSelection = useSelector(selectMessages)
   return (
     <Modal
+      style={{ background: 'gray' }}
       show={show}
       onHide={handleOnHide}
       dialogClassName="modal-90w"
@@ -24,7 +25,9 @@ export default function ConfirmModalBefore({
         </Modal.Header>
 
         <Modal.Body>
-          <p><b> במידה ותשמור , לא תוכל לשנות את המשמרת יותר</b></p>
+          <p>
+            <b> במידה ותשמור , לא תוכל לשנות את המשמרת יותר</b>
+          </p>
           <div style={{ color: 'red' }}>{messagesSelection.errMessage}</div>
         </Modal.Body>
 

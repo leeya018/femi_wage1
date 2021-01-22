@@ -12,6 +12,7 @@ export default function ConfirmModal({ show, handleOnHide }) {
   }
   return (
     <Modal
+      style={{ background: 'gray' }}
       show={show}
       onHide={handleOnHide}
       dialogClassName="modal-90w"
