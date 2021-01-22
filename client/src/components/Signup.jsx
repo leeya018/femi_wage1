@@ -111,7 +111,7 @@ export default function Signup() {
       <div style={{ color: 'green' }}>{messagesSelection.successMessage}</div>
       <a
         className="explenation-video"
-        href="https://www.youtube.com/watch?v=Ox2hw7RayGM&t=2s&ab_channel=LeeYahav"
+        href="https://www.youtube.com/watch?v=c4QgG-Smbc0&feature=youtu.be&ab_channel=LeeYahav"
         target="_blank"
       >
         סרטון הסבר
