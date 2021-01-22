@@ -182,14 +182,15 @@ export default function MyCalendar() {
             markWorkingDays(date, view)
           }
           onClickDay={(date) => openRightModal(date)}
-          // onClick={(value) => alert('New date is:')}
-          // onClickMonth={(value) => alert('New date is:')}
           nextLabel={<p onClick={increaseMonth}>{'>'}</p>}
           prevLabel={<p onClick={decreaseMonth}>{'<'}</p>}
           next2Label={<p onClick={() => setYear((prev) => prev + 1)}>{'>>'}</p>}
           prev2Label={<p onClick={() => setYear((prev) => prev - 1)}>{'<<'}</p>}
           onChange={setValue}
           value={value}
+          maxDate={new Date()}
+          minDate={new Date(2020,9,5)}
+
         />
       </>
     </div>

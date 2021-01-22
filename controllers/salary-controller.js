@@ -5,16 +5,15 @@ addSalary = async (req, res) => {
   let id_number = req.headers.id_number;
   let salary = req.body;
   let isFound;
-  let creationDate = new Date(salary.creationDate) 
+  let creationDate = new Date(salary.creationDate);
+
   try {
-    isFound = await util.isTodaySalaryInDb(id_number,creationDate);
+    isFound = await util.isTodaySalaryInDb(id_number, creationDate);
     if (isFound) {
-      return res
-        .status(406)
-        .json({
-          success: false,
-          message: " כבר יש משמרת של היום במאגר נתונים",
-        });
+      return res.status(406).json({
+        success: false,
+        message: " כבר יש משמרת של היום במאגר נתונים",
+      });
     }
   } catch (error) {
     return res.status(400).json({ success: false, message: error });
