@@ -19,6 +19,9 @@ import '../styles/myCalender.css'
 import api from '../api'
 import MyAddShiftModal from './MyAddShiftModal'
 
+let id_number
+let token
+
 export default function MyCalendar() {
   const [value, setValue] = useState(new Date())
   const [day, setDay] = useState(value.getDate())
@@ -34,17 +37,14 @@ export default function MyCalendar() {
 
   const img = <img className="saved" src={savedIcon} alt="" />
 
-  let id_number = localStorage.getItem('id_number')
-  let token = localStorage.getItem('token')
+  useEffect(() => {
+    id_number = localStorage.getItem('id_number')
+    token = localStorage.getItem('token')
+  }, [])
 
   useEffect(() => {
     getMyMonthlyShifts()
   }, [month, year, showConfirmationModal])
-
-  const closeMonthlySalary = () => {
-    setMonth(new Date().getMonth())
-    setShowMonthlySalary(false)
-  }
 
   const updateDatesWithShifts = (shifts) => {
     let dates = []
@@ -82,7 +82,6 @@ export default function MyCalendar() {
     }
     return null
   }
-
 
   const openRightModal = (date) => {
     setDay(() => date.getDate())
@@ -162,7 +161,7 @@ export default function MyCalendar() {
         <MyMonthlySalaryModal
           month={month}
           year={year}
-          handleOnHide={()=>setShowMonthlySalary(false)}
+          handleOnHide={() => setShowMonthlySalary(false)}
           show={showMonthlySalary}
         />
       )}
@@ -171,7 +170,7 @@ export default function MyCalendar() {
           משכורת חודשית
         </button>
         <Calendar
-        calendarType={"Hebrew"}
+          calendarType={'Hebrew'}
           tileContent={({ activeStartDay, date, view }) =>
             markWorkingDays(date, view)
           }
@@ -183,11 +182,9 @@ export default function MyCalendar() {
           onChange={setValue}
           value={value}
           maxDate={new Date()}
-          minDate={new Date(2021,0,1)}
-
+          minDate={new Date(2021, 0, 1)}
         />
       </>
     </div>
   )
 }
-
