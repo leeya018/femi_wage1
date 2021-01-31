@@ -72,7 +72,7 @@ login = (req, res) => {
     }
     let token = jwt.sign(
       {
-        exp: Math.floor(Date.now() / 1000) + 60 * 60 * 100, // 100 hour expiration
+        expiresIn: '365d', // 1 year expiration
         id_number: user.id_number,
       },
       process.env.PRIVATE_KEY
