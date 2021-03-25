@@ -5,3 +5,4 @@
 .env
 salaries.json
 users.json
+.eslintcache
