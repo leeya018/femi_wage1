@@ -1,19 +1,10 @@
-import { configureStore, getDefaultMiddleware } from '@reduxjs/toolkit'
+import {combineReducers, createStore  } from "redux"
 import femiReducer from '../features/femiSlice'
 import  messagesReducer from '../features/messagesSlice'
-import  userReducer from '../features/userSlice'
 
-// import userReducer from '../features/userSlice';
-const customizedMiddleware = getDefaultMiddleware({
-  serializableCheck: false,
-})
-
-export default configureStore({
-  reducer: {
+let reducer =  combineReducers({
     femi: femiReducer,
     messages:messagesReducer,
-    user:userReducer,
-
-  },
-  middleware: customizedMiddleware,
 })
+
+export default createStore(reducer)

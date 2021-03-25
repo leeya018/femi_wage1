@@ -3,9 +3,7 @@ import { createSlice } from '@reduxjs/toolkit'
 const userSlice = createSlice({
   name: 'user',
   initialState: {
-    isLogged: false,
-    data: '',
-    confirm:false
+
   }
 
 })

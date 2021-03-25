@@ -10,13 +10,14 @@ const messagesSlice = createSlice({
   },
   reducers: {
     updateErrMessage: (state, action) => {
-      state.errMessage = action.payload
+      return {...state,errMessage:action.payload}
+
     },
     updateTimeErrMessage: (state, action) => {
-      state.timeErrMessage = action.payload
+      return {...state,timeErrMessage:action.payload}
     },
     updateSuccessMessage: (state, action) => {
-      state.successMessage = action.payload
+      return {...state,successMessage:action.payload }
     },
   },
 })
