@@ -5,8 +5,7 @@ const messagesSlice = createSlice({
   initialState: {
     errMessage: '',
     timeErrMessage: '',
-    successMessage: '',
-    time: '',
+    successMessage: ''
   },
   reducers: {
     updateErrMessage: (state, action) => {

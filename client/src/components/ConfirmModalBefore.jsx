@@ -1,16 +1,21 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { Modal, Button } from 'react-bootstrap'
 import { selectMessages } from '../features/messagesSlice'
+import { selectFemi, updateBeforeConfirmModal, updateShowAddShift } from '../features/femiSlice'
 
 export default function ConfirmModalBefore({
-  InstitutionsLen,
-  errMessage,
   show,
   handleOnHide,
+  InstitutionsLen,
+  errMessage,
   addDayInfo,
 }) {
   let messagesSelection = useSelector(selectMessages)
+
+  // let dispatch = useDispatch()
+  // let femi = useSelector(selectFemi)
+
   return (
     <Modal
       style={{ background: 'gray' }}

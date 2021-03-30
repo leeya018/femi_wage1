@@ -10,7 +10,6 @@ import {
   selectFemi,
   updateAllMyShifts,
   updateSalaryById,
-  updateShowModal,
 } from '../features/femiSlice'
 import { selectMessages, updateErrMessage } from '../features/messagesSlice'
 //make all rest calls to work with id_number adn token!!!
@@ -52,12 +51,7 @@ export default function MyShifts() {
   }
   return (
     <div>
-      {/* {femi.showModal && ( // tell react to not render it
-        <MyShiftModal
-          show={femi.showModal} // just make it visible
-          handleOnHide={() => dispatch(updateShowModal(false))}
-        />
-      )} */}
+
       <div>
         <Form>
           <Form.Group controlId="exampleForm.SelectCustomSizeSm">

@@ -16,13 +16,14 @@ import {
   resetFemiState,
   toggleFriday,
   updateShowAddShift,
-  updateShowModal,
   updateBaseSalary,
   updateEndTime,
   updateStartTime,
   updateTotalSumInstitutions,
-  updateShow1,
+  updateShowConfirmedModal,
   updateTotalTime,
+  updateBeforeConfirmModal,
+  updateShowBeforeModal,
 } from '../features/femiSlice'
 import '../styles/addShift.css'
 import util from '../util'
@@ -30,9 +31,7 @@ import List from './List'
 import ConfirmModal from './ConfirmModal'
 import ConfirmModalBefore from './ConfirmModalBefore'
 
-const  AddShift = ({  creationDate,
-                      showConfirmationModal,
-                      updateShowConfirmationModal})=>{
+const  AddShift = ({  creationDate})=>{
   let dispatch = useDispatch()
   let femi = useSelector(selectFemi)
 
@@ -83,8 +82,8 @@ const  AddShift = ({  creationDate,
         dispatch(updateSuccessMessage(res.data.message))
         dispatch(updateErrMessage(''))
         dispatch(resetFemiState())
-        updateShowConfirmationModal(true)
-        dispatch(updateShow1(false))
+        dispatch(updateShowBeforeModal(false ))
+        dispatch(updateShowConfirmedModal(true))
       })
       .catch((error) => {
         if (error.response) {
@@ -96,33 +95,36 @@ const  AddShift = ({  creationDate,
   }
 
   const checkAllFields = () => {
-    if (femi.institutions.length < 1) {
-      dispatch(updateErrMessage('חייב להכניס מוסד אחד לפחות'))
-      return
-    }
-    if (messages.errMessage !== '') {
-      return
-    }
-    dispatch(updateShow1(true))
+    // if (femi.institutions.length < 1) {
+    //   dispatch(updateErrMessage('חייב להכניס מוסד אחד לפחות'))
+    //   return
+    // }
+    // if (messages.errMessage !== '') {
+    //   return
+    // }
+    dispatch(updateShowBeforeModal(true))
+
   }
 
   return (
     <div className="add-shift">
       <ConfirmModal
-        show={showConfirmationModal} // just make it visible
-        handleOnHide={() => updateShowConfirmationModal(false)}
+          show={femi.updateShowConfirmedModal} // just make it visible
       />
       <ConfirmModalBefore
+        show={femi.showBeforeModal} // just make it visible
+        handleOnHide={() => dispatch(updateShowBeforeModal(false))}
         InstitutionsLen={femi.institutions.length}
         errMessage={femi.errMessage}
         addDayInfo={addDayInfo}
-        show={femi.show1} // just make it visible
-        handleOnHide={() => dispatch(updateShow1(false))}
       />
       <div className="btn-container">
         <Button
           variant="secondary"
-          onClick={() => dispatch(updateShowAddShift(false))}
+          onClick={() =>{
+            dispatch(updateShowAddShift(false))
+
+          }}
         >
           סגור
         </Button>
@@ -145,6 +147,7 @@ const  AddShift = ({  creationDate,
           type="time"
           min="09:00"
           max="12:00"
+          
           value={femi.startTime}
           onChange={(e) => dispatch(updateStartTime(e.target.value))}
           required
@@ -154,6 +157,8 @@ const  AddShift = ({  creationDate,
         <label htmlFor="">:שעת סיום </label>
         <FormControl
           type="time"
+          
+
           min={femi.startTime}
           max="20:00"
           value={femi.endTime}
@@ -173,6 +178,8 @@ const  AddShift = ({  creationDate,
           <FormControl
             className="inst-input"
             type="text"
+          
+
             ref={institutionNameRef}
             placeholder="שם המוסד"
             required
@@ -235,40 +242,14 @@ const  AddShift = ({  creationDate,
                 util.fromTimeStringToHours(femi.totalTime)
             )}
           </h3>
-          {/* {femi.institutions.length > 0 &&
-            femi.totalTime !== -1 &&
-            femi.totalTime !== 0 &&
-            femi.totalTime !== '0:00' &&
-            messages.errMessage === '' &&
-            messages.timeErrMessage === '' && (
-              <> */}
           <Button onClick={checkAllFields} style={{ marginBottom: '2em' }}>
             שמור יום עבודה
           </Button>
-          {/* </> */}
-          {/* )} */}
         </div>
       </div>
     </div>
   )
 }
 
-const dispatchObject= {
-  addInstitution,
-  resetFemiState,
-  toggleFriday,
-  updateShowAddShift,
-  updateShowModal,
-  updateBaseSalary,
-  updateEndTime,
-  updateStartTime,
-  updateTotalSumInstitutions,
-  updateShow1,
-  updateTotalTime,
 
-  selectMessages,
-  updateErrMessage,
-  updateSuccessMessage,
-  updateTimeErrMessage,
-}
-export default connect(null,dispatchObject)(AddShift)
+export default AddShift
