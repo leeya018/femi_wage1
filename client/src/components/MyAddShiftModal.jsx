@@ -9,8 +9,6 @@ import { selectFemi } from '../features/femiSlice'
 import { Modal, Button, Card } from 'react-bootstrap'
 
 export default function MyAddShiftModal({
-  showConfirmationModal,
-  updateShowConfirmationModal,
   creationDate,
   show,
   handleOnHide,
@@ -34,8 +32,6 @@ export default function MyAddShiftModal({
             <Card.Header></Card.Header>
             <Card.Body>
               <AddShift
-                showConfirmationModal={showConfirmationModal}
-                updateShowConfirmationModal={updateShowConfirmationModal}
                 creationDate={creationDate}
               />
             </Card.Body>

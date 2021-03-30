@@ -7,8 +7,8 @@ import {
   selectFemi,
   updateAllMyShifts,
   updateSalaryById,
+  updateShowBeforeModal,
   updateShowAddShift,
-  updateShowModal,
 } from '../features/femiSlice'
 import MyShiftModal from './MyShiftModal'
 import MyMonthlySalaryModal from './MyMonthlySalaryModal'
@@ -28,7 +28,6 @@ export default function MyCalendar() {
   const [month, setMonth] = useState(value.getMonth())
   const [year, setYear] = useState(value.getFullYear())
 
-  const [showConfirmationModal, setShowConfirmationModal] = useState(false)
   const [datesOfShifts, setDatesOfShifts] = useState([])
   const [showMonthlySalary, setShowMonthlySalary] = useState(false)
 
@@ -44,7 +43,7 @@ export default function MyCalendar() {
 
   useEffect(() => {
     getMyMonthlyShifts()
-  }, [month, year, showConfirmationModal])
+  }, [month, year])
 
   const updateDatesWithShifts = (shifts) => {
     let dates = []
@@ -110,7 +109,6 @@ export default function MyCalendar() {
       .getSalaryByID(shiftId, id_number, token)
       .then((res) => {
         dispatch(updateSalaryById(res.data))
-        dispatch(updateShowModal(true))
       })
       .catch((err) => {})
   }
@@ -145,13 +143,11 @@ export default function MyCalendar() {
       {femi.showModal && ( // tell react to not render it
         <MyShiftModal
           show={femi.showModal} // just make it visible
-          handleOnHide={() => dispatch(updateShowModal(false))}
+          handleOnHide={() => dispatch(updateShowBeforeModal(false))}
         />
       )}
       {femi.showAddShift && (
         <MyAddShiftModal
-          showConfirmationModal={showConfirmationModal}
-          updateShowConfirmationModal={setShowConfirmationModal}
           creationDate={new Date(year, month, day)}
           show={femi.showAddShift}
           handleOnHide={() => dispatch(updateShowAddShift(false))}

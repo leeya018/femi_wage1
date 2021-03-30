@@ -10,7 +10,6 @@ import {
   selectFemi,
   updateAllMyShifts,
   updateSalaryById,
-  updateShowModal,
 } from '../features/femiSlice'
 import { selectMessages, updateErrMessage } from '../features/messagesSlice'
 //make all rest calls to work with id_number adn token!!!

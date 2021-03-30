@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import util from '../util'
-import { updateShowModal } from '../features/femiSlice'
+import { updateShowBeforeModal } from '../features/femiSlice'
 import '../styles/shift.css'
 import api from '../api'
 
@@ -16,7 +16,6 @@ export default function Shift({ updateSal, _id, total, creationDate }) {
       .then((res) => {
         // dispatch(updateErrMessage(''))
         updateSal(res.data)
-        dispatch(updateShowModal(true))
       })
       .catch((err) => {
         // if (err.response) {

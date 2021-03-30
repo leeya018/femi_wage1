@@ -2,19 +2,22 @@ import React from 'react'
 import { Modal, Button } from 'react-bootstrap'
 import savedIcon from '../images/savedIcon.png'
 import { useDispatch, useSelector } from 'react-redux'
-import { updateShowAddShift } from '../features/femiSlice'
-export default function ConfirmModal({ show, handleOnHide }) {
+import { selectFemi, updateShowAddShift, updateShowConfirmedModal } from '../features/femiSlice'
+export default function ConfirmModal() {
   let dispatch = useDispatch()
+  let femi = useSelector(selectFemi)
 
-  const handleOnHide1 = () => {
-    handleOnHide()
+
+  const closeModal = () => {
+    dispatch(updateShowConfirmedModal(false))
     dispatch(updateShowAddShift(false))
+
   }
   return (
     <Modal
       style={{ background: 'gray' }}
-      show={show}
-      onHide={handleOnHide}
+      show={femi.showConfirmedModal}
+      onHide={closeModal}
       dialogClassName="modal-90w"
       aria-labelledby="example-custom-modal-styling-title"
     >
@@ -28,7 +31,7 @@ export default function ConfirmModal({ show, handleOnHide }) {
         </Modal.Body>
 
         <Modal.Footer>
-          <Button variant="secondary" onClick={handleOnHide1}>
+          <Button variant="secondary" onClick={closeModal}>
             Close
           </Button>
         </Modal.Footer>
