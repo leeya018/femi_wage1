@@ -2,21 +2,27 @@ import React from 'react'
 import { Modal, Button } from 'react-bootstrap'
 import savedIcon from '../images/savedIcon.png'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectFemi, updateShowAddShift, updateShowConfirmedModal } from '../features/femiSlice'
+import {
+  selectFemi,
+} from '../features/femiSlice'
+import {
+  updateShowAddShift,
+  updateShowConfirmedModal,
+  selectModals
+} from '../features/modalsSlice'
 export default function ConfirmModal() {
   let dispatch = useDispatch()
+  let modals = useSelector(selectModals)
   let femi = useSelector(selectFemi)
-
 
   const closeModal = () => {
     dispatch(updateShowConfirmedModal(false))
     dispatch(updateShowAddShift(false))
-
   }
   return (
     <Modal
       style={{ background: 'gray' }}
-      show={femi.showConfirmedModal}
+      show={modals.showConfirmedModal}
       onHide={closeModal}
       dialogClassName="modal-90w"
       aria-labelledby="example-custom-modal-styling-title"

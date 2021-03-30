@@ -10,20 +10,25 @@ import {
 } from '../features/messagesSlice'
 import CoinIcon from './CoinIcon'
 import api from '../api'
+import 
+   {selectModals,
+  updateShowAddShift,
+  updateShowConfirmedModal,
+  updateShowBeforeModal,
+} from "../features/modalsSlice"
 import {
   addInstitution,
   selectFemi,
   resetFemiState,
   toggleFriday,
-  updateShowAddShift,
   updateBaseSalary,
+
+  
   updateEndTime,
   updateStartTime,
   updateTotalSumInstitutions,
-  updateShowConfirmedModal,
   updateTotalTime,
-  updateBeforeConfirmModal,
-  updateShowBeforeModal,
+
 } from '../features/femiSlice'
 import '../styles/addShift.css'
 import util from '../util'
@@ -34,6 +39,9 @@ import ConfirmModalBefore from './ConfirmModalBefore'
 const  AddShift = ({  creationDate})=>{
   let dispatch = useDispatch()
   let femi = useSelector(selectFemi)
+  let modals = useSelector(selectModals)
+
+  
 
 
   let messages = useSelector(selectMessages)
@@ -109,10 +117,10 @@ const  AddShift = ({  creationDate})=>{
   return (
     <div className="add-shift">
       <ConfirmModal
-          show={femi.updateShowConfirmedModal} // just make it visible
+          show={modals.updateShowConfirmedModal} // just make it visible
       />
       <ConfirmModalBefore
-        show={femi.showBeforeModal} // just make it visible
+        show={modals.showBeforeModal} // just make it visible
         handleOnHide={() => dispatch(updateShowBeforeModal(false))}
         InstitutionsLen={femi.institutions.length}
         errMessage={femi.errMessage}

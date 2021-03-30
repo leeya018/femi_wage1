@@ -14,30 +14,12 @@ const femiSlice = createSlice({
     isFriday: false,
     monthlyIncome: {},
     allMyShifts: [],
-    showAddShift:false,
-    showBeforeModal: false,
-    showConfirmedModal: false,
-    showShiftModal: false,
-    showMonthlySalaryModal: false,
+
     salById: {},
   },
   
   reducers: {
-    updateShowMonthlySalaryModal:(state,action)=>{
-      return {...state,showMonthlySalaryModal:action.payload}
-    },
-    updateShowShiftModal:(state,action)=>{
-      return {...state,showShiftModal:action.payload}
-    },
-    updateShowConfirmedModal:(state,action)=>{
-      return {...state,showConfirmedModal:action.payload}
-    },
-    updateShowAddShift:(state,action)=>{
-      return {...state,showAddShift:action.payload}
-    },
-    updateShowBeforeModal: (state, action) => {
-      return {...state,showBeforeModal:action.payload}
-    },
+
     resetFemiState: (state, action) => {
       return {...state,
         startTime : '',
@@ -49,7 +31,6 @@ const femiSlice = createSlice({
         isFriday : false,
         monthlyIncome : {},
         allMyShifts : [],
-        showBeforeModal : false,
         salById : {}
       }
     },
@@ -176,25 +157,19 @@ export const {
   updateInst,
   clearAllInstitutions,
   updateInstitution,
-  updateShowConfirmedModal,
   resetFields,
   resetFemiState,
   removeInstitution,
-  updateBeforeConfirmModal,
   updateStartTime,
   updateEndTime,
   updateInstitutionName,
   toggleFriday,
   updateBaseSalary,
-  updateShowAddShift,
   updateTotalSumPerIns,
   updateTotalTime,
   updateTests,
   updateTotalSumInstitutions,
   updateSalaryById,
-  updateShowBeforeModal,
-  updateShowMonthlySalaryModal,
-  updateShowShiftModal
 } = femiSlice.actions
 
 

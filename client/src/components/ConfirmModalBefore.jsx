@@ -2,8 +2,14 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Modal, Button } from 'react-bootstrap'
 import { selectMessages } from '../features/messagesSlice'
-import { selectFemi, updateBeforeConfirmModal, updateShowAddShift } from '../features/femiSlice'
+import { selectFemi } from '../features/femiSlice'
 
+
+import {
+  selectModals,
+  updateBeforeConfirmModal,
+  updateShowAddShift
+} from "../features/modalsSlice"
 export default function ConfirmModalBefore({
   show,
   handleOnHide,
@@ -12,9 +18,7 @@ export default function ConfirmModalBefore({
   addDayInfo,
 }) {
   let messagesSelection = useSelector(selectMessages)
-
-  // let dispatch = useDispatch()
-  // let femi = useSelector(selectFemi)
+  let modals = useSelector(selectModals)
 
   return (
     <Modal
