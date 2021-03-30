@@ -1,23 +1,25 @@
 import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { BrowserRouter as Router, Link } from 'react-router-dom'
 import { useLocation } from 'react-router-dom'
-export default function MyNav({ isLogged, updateLogged }) {
+import {logout, selectUser } from '../features/userSlice'
+
+export default function MyNav() {
   console.log('render nav')
   const location = useLocation()
-  console.log('isLogged:' + isLogged)
-  console.log('url:' + location.pathname)
+  let dispatch = useDispatch()
+  let userSelection = useSelector(selectUser)
   return (
     <nav>
       <ul style={{ fontSize: '1.4em', marginTop: '1em' }}>
         <li>{location.pathname == '/signup' && <Link to="/">כניסה</Link>}</li>
 
         <li>
-          {isLogged && (
+          {userSelection.isLogged && (
             <Link
               to="/login"
               onClick={() => {
-                localStorage.clear()
-                updateLogged(false)
+                dispatch(logout())
               }}
             >
               יציאה

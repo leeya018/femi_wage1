@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { Button, FormControl } from 'react-bootstrap'
-import { useDispatch, useSelector } from 'react-redux'
+import {connect , useDispatch, useSelector } from 'react-redux'
+
 import {
   selectMessages,
   updateErrMessage,
@@ -29,14 +30,14 @@ import List from './List'
 import ConfirmModal from './ConfirmModal'
 import ConfirmModalBefore from './ConfirmModalBefore'
 
-export default function AddShift({
-  creationDate,
-  showConfirmationModal,
-  updateShowConfirmationModal,
-}) {
+const  AddShift = ({  creationDate,
+                      showConfirmationModal,
+                      updateShowConfirmationModal})=>{
   let dispatch = useDispatch()
   let femi = useSelector(selectFemi)
-  let messagesSelection = useSelector(selectMessages)
+
+
+  let messages = useSelector(selectMessages)
 
   let testsRef = useRef(null)
   let token = localStorage.getItem('token')
@@ -99,7 +100,7 @@ export default function AddShift({
       dispatch(updateErrMessage('חייב להכניס מוסד אחד לפחות'))
       return
     }
-    if (messagesSelection.errMessage !== '') {
+    if (messages.errMessage !== '') {
       return
     }
     dispatch(updateShow1(true))
@@ -160,7 +161,7 @@ export default function AddShift({
           required
         />
       </div>
-      <div style={{ color: 'red' }}>{messagesSelection.timeErrMessage}</div>
+      <div style={{ color: 'red' }}>{messages.timeErrMessage}</div>
 
       <div>זמן עבודה: {femi.totalTime + ' '} שעות</div>
 
@@ -182,7 +183,7 @@ export default function AddShift({
             ref={testsRef}
             placeholder="מספר דגימות"
           />
-          <div style={{ color: 'red' }}>{messagesSelection.errMessage}</div>
+          <div style={{ color: 'red' }}>{messages.errMessage}</div>
 
           <Button
             onClick={() => {
@@ -238,8 +239,8 @@ export default function AddShift({
             femi.totalTime !== -1 &&
             femi.totalTime !== 0 &&
             femi.totalTime !== '0:00' &&
-            messagesSelection.errMessage === '' &&
-            messagesSelection.timeErrMessage === '' && (
+            messages.errMessage === '' &&
+            messages.timeErrMessage === '' && (
               <> */}
           <Button onClick={checkAllFields} style={{ marginBottom: '2em' }}>
             שמור יום עבודה
@@ -251,3 +252,23 @@ export default function AddShift({
     </div>
   )
 }
+
+const dispatchObject= {
+  addInstitution,
+  resetFemiState,
+  toggleFriday,
+  updateShowAddShift,
+  updateShowModal,
+  updateBaseSalary,
+  updateEndTime,
+  updateStartTime,
+  updateTotalSumInstitutions,
+  updateShow1,
+  updateTotalTime,
+
+  selectMessages,
+  updateErrMessage,
+  updateSuccessMessage,
+  updateTimeErrMessage,
+}
+export default connect(null,dispatchObject)(AddShift)
