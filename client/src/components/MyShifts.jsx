@@ -51,12 +51,7 @@ export default function MyShifts() {
   }
   return (
     <div>
-      {/* {femi.showModal && ( // tell react to not render it
-        <MyShiftModal
-          show={femi.showModal} // just make it visible
-          handleOnHide={() => dispatch(updateShowModal(false))}
-        />
-      )} */}
+
       <div>
         <Form>
           <Form.Group controlId="exampleForm.SelectCustomSizeSm">

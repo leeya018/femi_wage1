@@ -17,11 +17,20 @@ const femiSlice = createSlice({
     showAddShift:false,
     showBeforeModal: false,
     showConfirmedModal: false,
+    showShiftModal: false,
+    showMonthlySalaryModal: false,
+
 
     salById: {},
   },
   
   reducers: {
+    updateShowMonthlySalaryModal:(state,action)=>{
+      return {...state,showMonthlySalaryModal:action.payload}
+    },
+    updateShowShiftModal:(state,action)=>{
+      return {...state,showShiftModal:action.payload}
+    },
     updateShowConfirmedModal:(state,action)=>{
       return {...state,showConfirmedModal:action.payload}
     },
@@ -216,7 +225,9 @@ export const {
   updateTests,
   updateTotalSumInstitutions,
   updateSalaryById,
-  updateShowBeforeModal
+  updateShowBeforeModal,
+  updateShowMonthlySalaryModal,
+  updateShowShiftModal
 } = femiSlice.actions
 
 

@@ -7,7 +7,8 @@ import {
   selectFemi,
   updateAllMyShifts,
   updateSalaryById,
-  updateShowBeforeModal,
+  updateShowMonthlySalaryModal,
+  updateShowShiftModal,
   updateShowAddShift,
 } from '../features/femiSlice'
 import MyShiftModal from './MyShiftModal'
@@ -29,7 +30,6 @@ export default function MyCalendar() {
   const [year, setYear] = useState(value.getFullYear())
 
   const [datesOfShifts, setDatesOfShifts] = useState([])
-  const [showMonthlySalary, setShowMonthlySalary] = useState(false)
 
   let dispatch = useDispatch()
   let femi = useSelector(selectFemi)
@@ -89,6 +89,7 @@ export default function MyCalendar() {
       let shiftId = getShiftIdByDate(date)
       if (shiftId) {
         getSalaryByID(shiftId)
+        dispatch(updateShowShiftModal(true))
       }
       return
     }
@@ -140,10 +141,10 @@ export default function MyCalendar() {
 
   return (
     <div>
-      {femi.showModal && ( // tell react to not render it
+      {femi.showShiftModal && ( // tell react to not render it
         <MyShiftModal
-          show={femi.showModal} // just make it visible
-          handleOnHide={() => dispatch(updateShowBeforeModal(false))}
+          show={femi.showShiftModal} // just make it visible
+          handleOnHide={() => dispatch(updateShowShiftModal(false))}
         />
       )}
       {femi.showAddShift && (
@@ -153,16 +154,16 @@ export default function MyCalendar() {
           handleOnHide={() => dispatch(updateShowAddShift(false))}
         />
       )}
-      {showMonthlySalary && (
+      {femi.showMonthlySalaryModal && (
         <MyMonthlySalaryModal
           month={month}
           year={year}
-          handleOnHide={() => setShowMonthlySalary(false)}
-          show={showMonthlySalary}
+          handleOnHide={() => dispatch(updateShowMonthlySalaryModal(false))}
+          show={femi.showMonthlySalaryModal}
         />
       )}
       <>
-        <button onClick={() => setShowMonthlySalary(true)}>
+        <button onClick={() => dispatch(updateShowMonthlySalaryModal(true))}>
           משכורת חודשית
         </button>
         <Calendar
