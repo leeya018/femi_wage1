@@ -1,6 +1,6 @@
 import React, { useRef, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectUser } from '../features/userSlice'
+import { logUser, selectUser } from '../features/userSlice'
 import {
   selectMessages,
   updateErrMessage,
@@ -11,7 +11,7 @@ import { useHistory } from 'react-router-dom'
 import '../styles/signup.css'
 import api from '../api'
 
-export default function Login({ updateLogged }) {
+export default function Login() {
   let dispatch = useDispatch()
   const history = useHistory()
   let userSelection = useSelector(selectUser)
@@ -19,6 +19,7 @@ export default function Login({ updateLogged }) {
 
   let id_numberRef = useRef(null)
   let passwordRef = useRef(null)
+
 
   useEffect(() => {
     dispatch(updateSuccessMessage(''))
@@ -38,12 +39,11 @@ export default function Login({ updateLogged }) {
     api
       .login(userInfo)
       .then((res) => {
-        updateLogged(true)
         history.push('/calender')
-
-        localStorage.setItem('token', res.data.token)
-        localStorage.setItem('id_number', res.data.id_number)
-
+        let {token , id_number} = res.data 
+        localStorage.setItem('token', token)
+        localStorage.setItem('id_number', id_number)
+        dispatch(logUser({token, id_number}))
         dispatch(updateErrMessage(''))
       })
       .catch((err) => {
@@ -60,9 +60,9 @@ export default function Login({ updateLogged }) {
       <h1>כניסה</h1>
 
       <p>:תעודת זהות </p>
-
       <FormControl
         type="text"
+        defaultValue = "300628583"
         placeholder="תעודת זהות"
         onFocus={resetErr}
         ref={id_numberRef}
@@ -71,6 +71,8 @@ export default function Login({ updateLogged }) {
 
       <FormControl
         type="text"
+        defaultValue = "1111"
+
         placeholder="סיסמה"
         onFocus={resetErr}
         ref={passwordRef}

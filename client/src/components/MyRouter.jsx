@@ -13,12 +13,14 @@ import Login from './Login'
 import Nav from './MyNav'
 import { useHistory, useLocation } from 'react-router-dom'
 import MyCalendar from './MyCalendar'
-export default function MyRouter({ updateLogged, isLogged }) {
+import { selectUser } from '../features/userSlice'
+import { useSelector } from 'react-redux'
+export default function MyRouter() {
   const history = useHistory()
   const location = useLocation()
 
   let id_number = localStorage.getItem('id_number')
-
+  let userSelection = useSelector(selectUser)
   useEffect(() => {
     if (!id_number && location.pathname !== '/signup') {
       history.push('/login')
@@ -27,12 +29,12 @@ export default function MyRouter({ updateLogged, isLogged }) {
   return (
     <Switch>
       <Route exact path="/">
-        {!isLogged ? <Redirect to="/login" /> : <Redirect to="/calender" />}
+        {!userSelection.isLogged ? <Redirect to="/login" /> : <Redirect to="/calender" />}
       </Route>
 
       <Route
         path="/login"
-        component={() => <Login updateLogged={updateLogged} />}
+        component={() => <Login  />}
       ></Route>
       
       <Route
