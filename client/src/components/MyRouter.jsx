@@ -5,9 +5,6 @@ import {
   Switch,
   Route,
 } from 'react-router-dom'
-import AddShift from './AddShift'
-import MonthlySalary from './MonthlySalary'
-import MyShifts from './MyShifts'
 import Signup from './Signup'
 import Login from './Login'
 import Nav from './MyNav'
