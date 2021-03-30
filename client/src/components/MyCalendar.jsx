@@ -43,7 +43,7 @@ export default function MyCalendar() {
 
   useEffect(() => {
     getMyMonthlyShifts()
-  }, [month, year])
+  }, [month, year,femi.salById])
 
   const updateDatesWithShifts = (shifts) => {
     let dates = []
@@ -89,11 +89,10 @@ export default function MyCalendar() {
       let shiftId = getShiftIdByDate(date)
       if (shiftId) {
         getSalaryByID(shiftId)
-        dispatch(updateShowShiftModal(true))
       }
-      return
+    }else{
+      dispatch(updateShowAddShift(true))
     }
-    dispatch(updateShowAddShift(true))
   }
 
   const getShiftIdByDate = (date) => {
@@ -109,7 +108,11 @@ export default function MyCalendar() {
     api
       .getSalaryByID(shiftId, id_number, token)
       .then((res) => {
+        console.log("this is the sal by id")
+        console.log(res.data)
         dispatch(updateSalaryById(res.data))
+        dispatch(updateShowShiftModal(true))
+      
       })
       .catch((err) => {})
   }

@@ -19,8 +19,6 @@ const femiSlice = createSlice({
     showConfirmedModal: false,
     showShiftModal: false,
     showMonthlySalaryModal: false,
-
-
     salById: {},
   },
   
@@ -66,37 +64,7 @@ const femiSlice = createSlice({
     updateMonthlyIncome: (state, action) => {
       return {...state,monthlyIncome:action.payload}
     },
-    // addDayInfo: (state, action) => {
-    //   let baseHours = util.getBaseHours(state.totalTime)
-    //   let hoursPer125 = util.get125RateHours(state.totalTime)
-    //   let baseWage = util.calcWagePerBaseHours(baseHours)
-    //   let wageFor125 = util.calcWagePer125Hours(hoursPer125)
-
-    //   let dayInfo = {
-    //     id_number: localStorage.getItem('id_number'),
-    //     hours: {
-    //       baseHours: {
-    //         amount: baseHours,
-    //         baseWage,
-    //       },
-    //       hoursPer125: {
-    //         amount: hoursPer125,
-    //         wageFor125,
-    //       },
-    //     },
-    //     institutions: state.institutions,
-    //     total: util.fixNum(state.totalSumInstitutions + state.baseSalary),
-    //   }
-
-    //   api
-    //     .saveDay(dayInfo)
-    //     .then((res) => {
-         
-
-    //     })
-    //     .catch((error) => {
-    //     })
-    // },
+    
     addInstitution: (state, action) => {
       let { institutionName, tests } = action.payload
       let ind = state.institutions.length
@@ -205,7 +173,6 @@ export const {
   updateAllMyShifts,
   updateMonthlyIncome,
   addInstitution,
-  // addDayInfo,
   updateInst,
   clearAllInstitutions,
   updateInstitution,
