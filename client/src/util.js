@@ -67,13 +67,13 @@ const getDiffInTimesStr = (startTime, endTime) => {
   return diffTimeStr
 }
 
-const convertArrayToObjWithRates = (institutions) => {
-  let testsRatesObj = {}
-  institutions.forEach((inst) => {
-    testsRatesObj[inst.rate] = inst.tests
-  })
-  return testsRatesObj
-}
+// const convertArrayToObjWithRates = (institutions) => {
+//   let testsRatesObj = {}
+//   institutions.forEach((inst) => {
+//     testsRatesObj[inst.rate] = inst.tests
+//   })
+//   return testsRatesObj
+// }
 
 const createDayInfo = (
   totalTime,
@@ -144,7 +144,6 @@ export default {
   get125RateHours,
   getBaseHours,
   getDiffInTimesStr,
-  convertArrayToObjWithRates,
   createDayInfo,
   formatDate,
   fromLineToDot,
