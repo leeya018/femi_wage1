@@ -18,6 +18,14 @@ import {
   updateShowShiftModal,
   updateShowMonthlySalaryModal
 } from "../features/modalsSlice"
+import {
+  selectCalender,
+  updateDatesOfShifts,
+  updateDay,
+  updateDate,
+  updateMonth,
+  updateYear
+} from "../features/calenderSlice"
 import savedIcon from '../images/savedIcon.png'
 import '../styles/myCalender.css'
 import api from '../api'
@@ -27,16 +35,13 @@ let id_number
 let token
 
 export default function MyCalendar() {
-  const [value, setValue] = useState(new Date())
-  const [day, setDay] = useState(value.getDate())
-  const [month, setMonth] = useState(value.getMonth())
-  const [year, setYear] = useState(value.getFullYear())
-
-  const [datesOfShifts, setDatesOfShifts] = useState([])
 
   let dispatch = useDispatch()
   let femi = useSelector(selectFemi)
   let modals = useSelector(selectModals)
+  let calender = useSelector(selectCalender)
+
+
 
   const img = <img className="saved" src={savedIcon} alt="" />
 
@@ -45,9 +50,10 @@ export default function MyCalendar() {
     token = localStorage.getItem('token')
   }, [])
 
+  console.log(calender.month)
   useEffect(() => {
     getMyMonthlyShifts()
-  }, [month, year, femi.salById])
+  }, [calender.month, calender.year, femi.salById])
 
   const updateDatesWithShifts = (shifts) => {
     let dates = []
@@ -56,12 +62,12 @@ export default function MyCalendar() {
       const dateObj = fromDateToDateObj(date)
       dates.push(dateObj)
     }
-    setDatesOfShifts(dates)
+    dispatch(updateDatesOfShifts(dates))
   }
 
   const getMyMonthlyShifts = () => {
     api
-      .getMyMonthlyShifts(month, year, id_number, token)
+      .getMyMonthlyShifts(calender.month, calender.year, id_number, token)
       .then((res) => {
         dispatch(updateErrMessage(''))
         dispatch(updateAllMyShifts(res.data))
@@ -78,7 +84,7 @@ export default function MyCalendar() {
 
   const markWorkingDays = (date, view) => {
     let { day, month, year } = fromDateToDateObj(date)
-    for (const myDate of datesOfShifts) {
+    for (const myDate of calender.datesOfShifts) {
       if (myDate.day == day && myDate.month == month && myDate.year == year) {
         return img
       }
@@ -87,7 +93,7 @@ export default function MyCalendar() {
   }
 
   const openRightModal = (date) => {
-    setDay(() => date.getDate())
+    dispatch(updateDay(date.getDate()))
     const hasShift = markWorkingDays(date)
     if (hasShift) {
       let shiftId = getShiftIdByDate(date)
@@ -131,21 +137,23 @@ export default function MyCalendar() {
   }
 
   const increaseMonth = () => {
+    let { month, year } = calender
     let prevMonth = month
-    setMonth((prev) => (prev + 1) % 12)
+    dispatch(updateMonth((month + 1) % 12))
     if (prevMonth == 11) {
-      setYear((prev) => prev + 1)
+      dispatch(updateYear(year + 1))
     }
   }
 
   const decreaseMonth = () => {
-    let prevMonth = month
-    setMonth((prev) => (((prev - 1) % 12) + 12) % 12)
+    let prevMonth = calender.month
+    dispatch(updateMonth((((month - 1) % 12) + 12) % 12))
+
     if (prevMonth == 0) {
-      setYear((prev) => prev - 1)
+      dispatch(updateYear(year - 1))
     }
   }
-
+  let { year, day, month, date } = calender
   return (
     <div>
       {modals.showShiftModal && ( // tell react to not render it
@@ -181,10 +189,10 @@ export default function MyCalendar() {
           onClickDay={(date) => openRightModal(date)}
           nextLabel={<p onClick={increaseMonth}>{'>'}</p>}
           prevLabel={<p onClick={decreaseMonth}>{'<'}</p>}
-          next2Label={<p onClick={() => setYear((prev) => prev + 1)}>{'>>'}</p>}
-          prev2Label={<p onClick={() => setYear((prev) => prev - 1)}>{'<<'}</p>}
-          onChange={setValue}
-          value={value}
+          next2Label={<p onClick={() => dispatch(updateYear(year + 1))}>{'>>'}</p>}
+          prev2Label={<p onClick={() => dispatch(updateYear(year - 1))}>{'<<'}</p>}
+          onChange={(date) => dispatch(updateDate(date))}
+          value={date}
           maxDate={new Date()}
           minDate={new Date(2021, 0, 1)}
         />
