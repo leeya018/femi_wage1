@@ -1,9 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit'
-import api from '../api'
 import util from '../util'
 
-const femiSlice = createSlice({
-  name: 'femi',
+const addShiftFormSlice = createSlice({
+  name: 'addShiftForm',
   initialState: {
     startTime: '',
     endTime: '',
@@ -14,38 +13,37 @@ const femiSlice = createSlice({
     isFriday: false,
     monthlyIncome: {},
     allMyShifts: [],
-
     salById: {},
   },
-  
-  reducers: {
 
+  reducers: {
     resetFemiState: (state, action) => {
-      return {...state,
-        startTime : '',
-        endTime : '',
-        institutions : [],
-        totalSumInstitutions : 0,
-        totalTime : '0:00',
-        baseSalary : 0,
-        isFriday : false,
-        monthlyIncome : {},
-        allMyShifts : [],
-        salById : {}
+      return {
+        ...state,
+        startTime: '',
+        endTime: '',
+        institutions: [],
+        totalSumInstitutions: 0,
+        totalTime: '0:00',
+        baseSalary: 0,
+        isFriday: false,
+        monthlyIncome: {},
+        allMyShifts: [],
+        salById: {}
       }
     },
 
     updateSalaryById: (state, action) => {
-      return {...state,salById:action.payload}
+      return { ...state, salById: action.payload }
     },
 
     updateAllMyShifts: (state, action) => {
-      return {...state,allMyShifts:action.payload}
+      return { ...state, allMyShifts: action.payload }
     },
     updateMonthlyIncome: (state, action) => {
-      return {...state,monthlyIncome:action.payload}
+      return { ...state, monthlyIncome: action.payload }
     },
-    
+
     addInstitution: (state, action) => {
       let { institutionName, tests } = action.payload
       let ind = state.institutions.length
@@ -53,27 +51,30 @@ const femiSlice = createSlice({
         alert('cannot add more than 5 institutions')
         return
       }
-      return {...state,
-        institutionName:"",
-        tests:0,
-        institutions:[...state.institutions,
-          {institutionName,tests:parseInt(tests),
-            index:ind,rate:util.rateTable[ind ],
-            sum:util.rateTable[ind]* parseInt(tests)}
-          ]
-    }
+      return {
+        ...state,
+        institutionName: "",
+        tests: 0,
+        institutions: [...state.institutions,
+        {
+          institutionName, tests: parseInt(tests),
+          index: ind, rate: util.rateTable[ind],
+          sum: util.rateTable[ind] * parseInt(tests)
+        }
+        ]
+      }
     },
     updateStartTime: (state, action) => {
-      return {...state,startTime:action.payload}
+      return { ...state, startTime: action.payload }
     },
     updateEndTime: (state, action) => {
-      return {...state,endTime:action.payload}
+      return { ...state, endTime: action.payload }
     },
     updateInstitutionName: (state, action) => {
-      return {...state,institutionName:action.payload}
+      return { ...state, institutionName: action.payload }
     },
     updateTests: (state, action) => {
-      return {...state,tests:action.payload}
+      return { ...state, tests: action.payload }
     },
 
     // this one is not changeing the state1 !!!!!!!!!!!! 
@@ -83,31 +84,31 @@ const femiSlice = createSlice({
       }, 0)
       let institutionsTransportBonus =
         state.institutions.length > 0 ? (state.institutions.length - 1) * 40 : 0
-      return {...state,totalSumInstitutions:sum + institutionsTransportBonus}
+      return { ...state, totalSumInstitutions: sum + institutionsTransportBonus }
     },
 
     updateTotalTime: (state, action) => {
       let { startTime, endTime } = state
       let totalTimeStr = util.getDiffInTimesStr(startTime, endTime)
-      return {...state,totalTime:totalTimeStr}
+      return { ...state, totalTime: totalTimeStr }
     },
     updateBaseSalary: (state, action) => {
       let baseHours = util.getBaseHours(state.totalTime)
       let hoursPer125 = util.get125RateHours(state.totalTime)
       let baseWage = util.calcWagePerBaseHours(baseHours)
       let wageFor125 = util.calcWagePer125Hours(hoursPer125)
-      return {...state,baseSalary:baseWage + wageFor125}
+      return { ...state, baseSalary: baseWage + wageFor125 }
     },
     toggleFriday: (state, action) => {
-     
+
       let isFriday = !state.isFriday
       let institutions = state.institutions.map((inst, index) => {
-          inst.sum = state.isFriday
-            ? inst.tests * util.fridayRate
-            : inst.tests * util.rateTable[inst.index]
-          return inst
-        })
-        return {...state,isFriday,institutions} 
+        inst.sum = state.isFriday
+          ? inst.tests * util.fridayRate
+          : inst.tests * util.rateTable[inst.index]
+        return inst
+      })
+      return { ...state, isFriday, institutions }
     },
     updateTotalSumPerIns: (state, action) => {
       let { index, updatedSum } = action.payload
@@ -118,15 +119,15 @@ const femiSlice = createSlice({
         }
         return inst
       })
-      return {...state,institutions}
+      return { ...state, institutions }
     },
 
     removeInstitution: (state, action) => {
- 
+
       let institutions = state.institutions.filter((inst) => {
-          return inst.index !== action.payload
-        })
-        return {...state,institutions}
+        return inst.index !== action.payload
+      })
+      return { ...state, institutions }
     },
 
 
@@ -139,13 +140,13 @@ const femiSlice = createSlice({
         }
         return inst
       })
-      return {...state,institutions}
+      return { ...state, institutions }
     },
     resetFields: (state, action) => {
-      return {...state,institutionName:"",tests:""}
+      return { ...state, institutionName: "", tests: "" }
     },
     clearAllInstitutions: (state, action) => {
-      return {...state,institutions:[]}
+      return { ...state, institutions: [] }
     },
   },
 })
@@ -170,10 +171,10 @@ export const {
   updateTests,
   updateTotalSumInstitutions,
   updateSalaryById,
-} = femiSlice.actions
+} = addShiftFormSlice.actions
 
 
 
-export const selectFemi = (state) => state.femi
+export const selectAddShiftForm = (state) => state.addShiftForm
 
-export default femiSlice.reducer
+export default addShiftFormSlice.reducer

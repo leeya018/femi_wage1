@@ -5,15 +5,15 @@ import List from './List'
 import HourlyWage from './HourlyWage'
 
 
-import { selectFemi } from '../features/femiSlice'
+import { selectAddShiftForm } from '../features/addShiftFormSlice'
 import { Modal, Button, Card } from 'react-bootstrap'
 
 
 export default function MyShiftModal({ show, handleOnHide }) {
-  let femi = useSelector(selectFemi)
-  let { creationDate } = femi.salById
-  let { baseHours, hoursPer125 } = femi.salById.hours
-  let { institutions, total } = femi.salById
+  let addShiftForm= useSelector(selectAddShiftForm)
+  let { creationDate } = addShiftForm.salById
+  let { baseHours, hoursPer125 } = addShiftForm.salById.hours
+  let { institutions, total } = addShiftForm.salById
 
   return (
     <Modal

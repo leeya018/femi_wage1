@@ -4,11 +4,11 @@ import 'react-calendar/dist/Calendar.css'
 import { Button } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-  selectFemi,
+  selectAddShiftForm,
   updateAllMyShifts,
   updateSalaryById,
 
-} from '../features/femiSlice'
+} from '../features/addShiftFormSlice'
 import MyShiftModal from './MyShiftModal'
 import MyMonthlySalaryModal from './MyMonthlySalaryModal'
 import { selectMessages, updateErrMessage } from '../features/messagesSlice'
@@ -37,7 +37,7 @@ let token
 export default function MyCalendar() {
 
   let dispatch = useDispatch()
-  let femi = useSelector(selectFemi)
+  let addShiftForm= useSelector(selectAddShiftForm)
   let modals = useSelector(selectModals)
   let calender = useSelector(selectCalender)
 
@@ -53,7 +53,7 @@ export default function MyCalendar() {
   console.log(calender.month)
   useEffect(() => {
     getMyMonthlyShifts()
-  }, [calender.month, calender.year, femi.salById])
+  }, [calender.month, calender.year, addShiftForm.salById])
 
   const updateDatesWithShifts = (shifts) => {
     let dates = []
@@ -106,7 +106,7 @@ export default function MyCalendar() {
   }
 
   const getShiftIdByDate = (date) => {
-    for (const shift of femi.allMyShifts) {
+    for (const shift of addShiftForm.allMyShifts) {
       if (new Date(shift.creationDate).getDate() === date.getDate()) {
         return shift._id
       }

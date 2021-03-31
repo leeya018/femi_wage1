@@ -5,7 +5,7 @@ import List from './List'
 import HourlyWage from './HourlyWage'
 import AddShift from './AddShift'
 
-import { selectFemi } from '../features/femiSlice'
+import { selectAddShiftForm } from '../features/addShiftFormSlice'
 import { Modal, Button, Card } from 'react-bootstrap'
 
 export default function MyAddShiftModal({
@@ -13,7 +13,7 @@ export default function MyAddShiftModal({
   show,
   handleOnHide,
 }) {
-  let femi = useSelector(selectFemi)
+  let addShiftForm= useSelector(selectAddShiftForm)
 
   return (
     <Modal

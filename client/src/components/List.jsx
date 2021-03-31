@@ -1,13 +1,13 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectFemi } from '../features/femiSlice'
+import { selectAddShiftForm } from '../features/addShiftFormSlice'
 import Institution from './Institution'
 import util from '../util'
 import { Table } from 'react-bootstrap'
-import { clearAllInstitutions } from '../features/femiSlice'
+import { clearAllInstitutions } from '../features/addShiftFormSlice'
 
 export default function List({ institutions, hideTrash }) {
-  let femi = useSelector(selectFemi)
+  let addShiftForm= useSelector(selectAddShiftForm)
   let dispatch = useDispatch()
 
   return (
@@ -38,7 +38,7 @@ export default function List({ institutions, hideTrash }) {
                   key={index}
                   sum={institution.sum}
                   rate={
-                    femi.isFriday
+                    addShiftForm.isFriday
                       ? util.fridayRate
                       : util.rateTable[institution.index]
                   }

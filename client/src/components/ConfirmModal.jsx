@@ -3,8 +3,8 @@ import { Modal, Button } from 'react-bootstrap'
 import savedIcon from '../images/savedIcon.png'
 import { useDispatch, useSelector } from 'react-redux'
 import {
-  selectFemi,
-} from '../features/femiSlice'
+  selectAddShiftForm,
+} from '../features/addShiftFormSlice'
 import {
   updateShowAddShift,
   updateShowConfirmedModal,
@@ -13,7 +13,7 @@ import {
 export default function ConfirmModal() {
   let dispatch = useDispatch()
   let modals = useSelector(selectModals)
-  let femi = useSelector(selectFemi)
+  let addShiftForm= useSelector(selectAddShiftForm)
 
   const closeModal = () => {
     dispatch(updateShowConfirmedModal(false))

@@ -7,7 +7,7 @@
 // import Shift from './Shift'
 
 // import {
-//   selectFemi,
+//   selectAddShiftForm,
 //   updateAllMyShifts,
 //   updateSalaryById,
 // } from '../features/femiSlice'
@@ -17,7 +17,7 @@
 // let month = 1
 // export default function MyShifts() {
 //   let dispatch = useDispatch()
-//   let femi = useSelector(selectFemi)
+//   let addShiftForm= useSelector(selectAddShiftForm)
 //   let messagesSelection = useSelector(selectMessages)
 
 //   const getMyMonthlyShifts = (chosenMonth) => {
@@ -82,10 +82,10 @@
 //         <div style={{ color: 'red' }}>{messagesSelection.errMessage}</div>
 //       ) : (
 //         <div>
-//           {femi.allMyShifts.length > 0 && (
+//           {addShiftForm.allMyShifts.length > 0 && (
 //             <ul>
 //               <h2>{`${month}/${new Date().getFullYear()}`}</h2>
-//               {femi.allMyShifts.map((shift, ind) => (
+//               {addShiftForm.allMyShifts.map((shift, ind) => (
 //                 <Shift updateSal={updateSal} key={ind} {...shift} />
 //               ))}
 //             </ul>

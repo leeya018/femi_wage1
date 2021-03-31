@@ -4,7 +4,7 @@ import util from '../util'
 import List from './List'
 import HourlyWage from './HourlyWage'
 import MonthlySalary from './MonthlySalary'
-import { selectFemi } from '../features/femiSlice'
+import { selectAddShiftForm } from '../features/addShiftFormSlice'
 import { Modal, Button, Card } from 'react-bootstrap'
 
 export default function MyMonthlySalaryModal({
@@ -13,7 +13,7 @@ export default function MyMonthlySalaryModal({
   show,
   handleOnHide,
 }) {
-  let femi = useSelector(selectFemi)
+  let addShiftForm= useSelector(selectAddShiftForm)
   return (
     <Modal
       show={show}

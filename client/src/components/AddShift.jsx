@@ -18,7 +18,7 @@ import
 } from "../features/modalsSlice"
 import {
   addInstitution,
-  selectFemi,
+  selectAddShiftForm,
   resetFemiState,
   toggleFriday,
   updateBaseSalary,
@@ -29,7 +29,7 @@ import {
   updateTotalSumInstitutions,
   updateTotalTime,
 
-} from '../features/femiSlice'
+} from '../features/addShiftFormSlice'
 import '../styles/addShift.css'
 import util from '../util'
 import List from './List'
@@ -38,7 +38,7 @@ import ConfirmModalBefore from './ConfirmModalBefore'
 
 const  AddShift = ({  creationDate})=>{
   let dispatch = useDispatch()
-  let femi = useSelector(selectFemi)
+  let addShiftForm= useSelector(selectAddShiftForm)
   let modals = useSelector(selectModals)
 
   
@@ -52,35 +52,35 @@ const  AddShift = ({  creationDate})=>{
 
   useEffect(() => {
     dispatch(updateTotalSumInstitutions())
-  }, [femi.institutions.length, femi.isFriday])
+  }, [addShiftForm.institutions.length, addShiftForm.isFriday])
 
   useEffect(() => {
-    let { startTime, endTime } = femi
+    let { startTime, endTime } = addShiftForm
     if (startTime && endTime) {
       dispatch(updateTotalTime())
       dispatch(updateBaseSalary())
     }
-  }, [femi.startTime, femi.endTime])
+  }, [addShiftForm.startTime, addShiftForm.endTime])
 
   useEffect(() => {
-    if (femi.totalTime === -1) {
+    if (addShiftForm.totalTime === -1) {
       dispatch(updateTimeErrMessage(' הפרשי הזמן לא יכולים להיות שליליים '))
-    } else if (femi.totalTime === 0) {
+    } else if (addShiftForm.totalTime === 0) {
       dispatch(updateTimeErrMessage(' הפרשי הזמן לא יכולים להיות שווים ל 0  '))
     } else {
       dispatch(updateTimeErrMessage(''))
     }
-  }, [femi.totalTime])
+  }, [addShiftForm.totalTime])
 
   const addDayInfo = () => {
-    let { totalTime, institutions } = femi
+    let { totalTime, institutions } = addShiftForm
     let id_number = localStorage.getItem('id_number')
     let dayInfo = util.createDayInfo(
       totalTime,
       institutions,
       id_number,
-      femi.totalSumInstitutions,
-      femi.baseSalary,
+      addShiftForm.totalSumInstitutions,
+      addShiftForm.baseSalary,
       creationDate
     )
 
@@ -103,7 +103,7 @@ const  AddShift = ({  creationDate})=>{
   }
 
   const checkAllFields = () => {
-    // if (femi.institutions.length < 1) {
+    // if (addShiftForm.institutions.length < 1) {
     //   dispatch(updateErrMessage('חייב להכניס מוסד אחד לפחות'))
     //   return
     // }
@@ -122,8 +122,8 @@ const  AddShift = ({  creationDate})=>{
       <ConfirmModalBefore
         show={modals.showBeforeModal} // just make it visible
         handleOnHide={() => dispatch(updateShowBeforeModal(false))}
-        InstitutionsLen={femi.institutions.length}
-        errMessage={femi.errMessage}
+        InstitutionsLen={addShiftForm.institutions.length}
+        errMessage={addShiftForm.errMessage}
         addDayInfo={addDayInfo}
       />
       <div className="btn-container">
@@ -145,7 +145,7 @@ const  AddShift = ({  creationDate})=>{
           style={{ marginRight: '.5em' }}
         />
 
-        <label htmlFor="" style={{ color: femi.isFriday ? 'green' : '' }}>
+        <label htmlFor="" style={{ color: addShiftForm.isFriday ? 'green' : '' }}>
           יום שישי
         </label>
       </div>
@@ -156,7 +156,7 @@ const  AddShift = ({  creationDate})=>{
           min="09:00"
           max="12:00"
           
-          value={femi.startTime}
+          value={addShiftForm.startTime}
           onChange={(e) => dispatch(updateStartTime(e.target.value))}
           required
         />
@@ -167,19 +167,19 @@ const  AddShift = ({  creationDate})=>{
           type="time"
           
 
-          min={femi.startTime}
+          min={addShiftForm.startTime}
           max="20:00"
-          value={femi.endTime}
+          value={addShiftForm.endTime}
           onChange={(e) => dispatch(updateEndTime(e.target.value))}
           required
         />
       </div>
       <div style={{ color: 'red' }}>{messages.timeErrMessage}</div>
 
-      <div>זמן עבודה: {femi.totalTime + ' '} שעות</div>
+      <div>זמן עבודה: {addShiftForm.totalTime + ' '} שעות</div>
 
       <h3 style={{ color: 'blue' }}>
-        <CoinIcon /> תשלום שעתי: {util.fixNum(femi.baseSalary)}
+        <CoinIcon /> תשלום שעתי: {util.fixNum(addShiftForm.baseSalary)}
       </h3>
       <div>
         <div>
@@ -226,14 +226,14 @@ const  AddShift = ({  creationDate})=>{
         </div>
 
         <div>
-          <List institutions={femi.institutions} />
+          <List institutions={addShiftForm.institutions} />
         </div>
-        {femi.institutions.length > 1 && (
+        {addShiftForm.institutions.length > 1 && (
           <div>
             <h4 style={{ color: 'blue' }}>
               <CoinIcon /> בונוס מעברי מוסד:
-              {femi.institutions.length > 0
-                ? util.fixNum((femi.institutions.length - 1) * 40)
+              {addShiftForm.institutions.length > 0
+                ? util.fixNum((addShiftForm.institutions.length - 1) * 40)
                 : 0}
             </h4>
           </div>
@@ -241,13 +241,13 @@ const  AddShift = ({  creationDate})=>{
         <div>
           <h3 style={{ color: 'green' }}>
             <CoinIcon /> סכום סופי:{' '}
-            {util.fixNum(femi.totalSumInstitutions + femi.baseSalary)}
+            {util.fixNum(addShiftForm.totalSumInstitutions + addShiftForm.baseSalary)}
           </h3>
           <h3 style={{ color: 'gray', paddingBottom: '3em' }}>
             <CoinIcon /> ממוצע לשעה :
             {util.fixNum(
-              (femi.totalSumInstitutions + femi.baseSalary) /
-                util.fromTimeStringToHours(femi.totalTime)
+              (addShiftForm.totalSumInstitutions + addShiftForm.baseSalary) /
+                util.fromTimeStringToHours(addShiftForm.totalTime)
             )}
           </h3>
           <Button onClick={checkAllFields} style={{ marginBottom: '2em' }}>

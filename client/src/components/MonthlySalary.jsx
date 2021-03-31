@@ -1,7 +1,7 @@
 import React, { useEffect, useCallback } from 'react'
 import api from '../api'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectFemi, updateMonthlyIncome } from '../features/femiSlice'
+import { selectAddShiftForm, updateMonthlyIncome } from '../features/addShiftFormSlice'
 import { selectMessages, updateErrMessage } from '../features/messagesSlice'
 import HourlyWage from './HourlyWage'
 import RatesWage from './RatesWage'
@@ -13,7 +13,7 @@ import "../styles/monthlySalary.css"
 export default function MonthlySalary({ month,year, closeWindow }) {
   let dispatch = useDispatch()
   let today = new Date()
-  let femi = useSelector(selectFemi)
+  let addShiftForm= useSelector(selectAddShiftForm)
   let messagesSelection = useSelector(selectMessages)
 
   const getSalaryByMonth = () => {
@@ -38,8 +38,8 @@ export default function MonthlySalary({ month,year, closeWindow }) {
   useEffect(() => {
     getSalaryByMonth(month)
   }, [])
-  let { baseHours, hoursPer125 } = femi.monthlyIncome.hours || {}
-  let { totalWageByCategory, totalWage, rates } = femi.monthlyIncome
+  let { baseHours, hoursPer125 } = addShiftForm.monthlyIncome.hours || {}
+  let { totalWageByCategory, totalWage, rates } = addShiftForm.monthlyIncome
   return (
     <div className="monthly-salary">
       <div>

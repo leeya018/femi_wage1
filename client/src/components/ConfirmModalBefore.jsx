@@ -2,7 +2,7 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Modal, Button } from 'react-bootstrap'
 import { selectMessages } from '../features/messagesSlice'
-import { selectFemi } from '../features/femiSlice'
+import { selectAddShiftForm } from '../features/addShiftFormSlice'
 
 
 import {
